@@ -8,7 +8,7 @@ const EditProduct = () => {
   const history = useNavigate();
   const { id } = useParams();
 
-  const saveProduct = async (e) => {
+  const updateProduct = async (e) => {
     e.preventDefault();
 
     console.log(`http://localhost:5000/products/${id}`);
@@ -25,18 +25,16 @@ const EditProduct = () => {
 
   useEffect(() => {
     getProductById();
-    // console.log("OKE");
   }, []);
 
   const getProductById = async () => {
-    // console.log("START");
     const response = await axios.get(`http://localhost:5000/products/${id}`);
     setTitle(response.data.title);
     setPrice(response.data.price);
   };
   return (
     <div>
-      <form onSubmit={saveProduct}>
+      <form onSubmit={updateProduct}>
         <div className="field">
           <label className="label">Title</label>
           <input
@@ -45,7 +43,6 @@ const EditProduct = () => {
             placeholder="Title"
             value={title}
             onChange={(e) => {
-              // console.log(e.target.value);
               setTitle(e.target.value);
             }}
           />
