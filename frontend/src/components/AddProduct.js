@@ -13,7 +13,7 @@ const AddProduct = () => {
       title: title,
       price: price,
     });
-    history("/"); // history.push("/"); no longer use push
+    history("/products"); // history.push("/"); no longer use push
   };
   return (
     <div>

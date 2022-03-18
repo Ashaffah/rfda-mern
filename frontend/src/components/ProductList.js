@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const ProductList = () => {
   const [product, setProduct] = useState([]);
-
   useEffect(() => {
     getProduct();
   }, []);
@@ -63,5 +62,4 @@ const ProductList = () => {
     </div>
   );
 };
-
 export default ProductList;

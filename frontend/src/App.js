@@ -6,13 +6,15 @@ import {
 import AddProduct from "./components/AddProduct";
 import ProductList from "./components/ProductList";
 import EditProduct from "./components/EditProduct";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   return (
     <Router>
       <div className="container">
         <div className="columns">
-          <div className="column is-half is-offset-one-quarter">
+          <div className="column">
             {/* <Switch> //Use Routes instead of Switch || Switch tidak lagi digunakan oleh react dom v6 keatas
               <Route exact path="/">
               <ProductList />
@@ -22,7 +24,13 @@ function App() {
               </Route>
             </Switch> */}
             <Routes>
-              <Route exact path="/" element={<ProductList />}></Route>
+              <Route exact path="/" element={<Login />}></Route>
+            </Routes>
+            {/* <Routes>
+              <Route path="/register" element={<Register />}></Route>
+            </Routes> */}
+            <Routes>
+              <Route path="/products" element={<ProductList />}></Route>
             </Routes>
             <Routes>
               <Route path="/add" element={<AddProduct />}></Route>

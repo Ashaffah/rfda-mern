@@ -23,6 +23,7 @@ export const getProductById = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
+  console.log("ENTER", req.body);
   try {
     await Product.create(req.body);
     res.json({
