@@ -9,7 +9,8 @@ Content-Type: application/json
 
 {
   "title":"Product 2",
-  "price":766
+  "price":766,
+  "image":"",
 }
 
 ###

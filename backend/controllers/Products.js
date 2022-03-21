@@ -24,7 +24,12 @@ export const getProductById = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   try {
-    await Product.create(req.body);
+    const payload = {
+      title: req.body.title,
+      price: req.body.price,
+      image: req.file.path
+    }
+    await Product.create(payload);
     res.json({
       message: "Product Created",
     });
