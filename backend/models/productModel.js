@@ -11,6 +11,9 @@ const Product = db.define(
     price: {
       type: DataTypes.DOUBLE,
     },
+    image: {
+      type: DataTypes.STRING,
+    },
   },
   {
     freezeTableName: true,

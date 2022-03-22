@@ -8,8 +8,21 @@ POST http://localhost:5000/products
 Content-Type: application/json
 
 {
-  "title":"Product 2",
-  "price":766
+  "title":"Product 666",
+  "price":766,
+  "image":"image",
+  "store":"store",
+  "rating":"rating"
+}
+
+###
+POST http://localhost:5000/products/
+Content-Type: application/json
+
+{
+  "title":"Product 43", 
+  "price":766, 
+  "image":"",
 }
 
 ###
