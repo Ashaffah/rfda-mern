@@ -5,13 +5,25 @@ import { useNavigate } from "react-router-dom"; // Use useNavigate instead of us
 const AddProduct = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [image, setImage] = useState("");
   const history = useNavigate();
 
+  const uploadImage = (e) => {
+    const image = e.target.files[0];
+    console.log("path", image);
+    setImage(image);
+  };
   const saveProduct = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:5000/products", {
-      title: title,
-      price: price,
+
+    const data = new FormData();
+    data.append("title", title);
+    data.append("price", price);
+    data.append("image", image);
+    await axios.post("http://localhost:5000/products", data, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
     });
     history("/"); // history.push("/"); no longer use push
   };
@@ -37,6 +49,15 @@ const AddProduct = () => {
             placeholder="Price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+
+        <div className="field">
+          <label className="label">Image</label>
+          <input
+            className="input"
+            type="file"
+            onChange={(e) => uploadImage(e)}
           />
         </div>
 

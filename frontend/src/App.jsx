@@ -6,6 +6,7 @@ import {
 import AddProduct from "./components/AddProduct";
 import ProductList from "./components/ProductList";
 import EditProduct from "./components/EditProduct";
+import ProductCard from "./components/ProductCard";
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
             </Routes>
             <Routes>
               <Route path="/edit/:id" element={<EditProduct />}></Route>
+            </Routes>
+            <Routes>
+              <Route path="/productslist" element={<ProductCard />}></Route>
             </Routes>
           </div>
         </div>
