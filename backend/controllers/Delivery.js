@@ -4,8 +4,6 @@ export const getAllKurir = async (req, res) => {
   const currentPage = req.query.page || 1;
   const perPage = req.query.perPage || 5;
 
-  console.log("currentPage", currentPage)
-  console.log("perPage", perPage)
   Delivery.findAndCountAll({
     // offset: (parseInt(currentPage) - 1) * parseInt(perPage),
     // limit: parseInt(perPage)

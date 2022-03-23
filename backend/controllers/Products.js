@@ -1,15 +1,20 @@
 import Product from "../models/productModel.js";
+import { Op } from "sequelize";
 
 export const getAllProducts = async (req, res) => {
   const currentPage = req.query.page || 1;
   const perPage = req.query.perPage || 5;
   const category = req.query.category;
   const delivery = req.query.delivery;
+  const search = req.query.search;
 
   Product.findAndCountAll({
-    where: category ? {
-      category: category
-    } : null,
+    // where: category ? { category: category } : null,
+    where: [
+      category ? { category: category } : null,
+      delivery ? { delivery: delivery } : null,
+      search ? { title: { [Op.like]: `%${search}%` } } : null,
+    ],
     attributes: { exclude: ['description'] },
     offset: (parseInt(currentPage) - 1) * parseInt(perPage),
     limit: parseInt(perPage)
@@ -24,7 +29,7 @@ export const getAllProducts = async (req, res) => {
       })
     })
     .catch(err => {
-      next(err);
+      console.log(err);
     })
 };
 
@@ -48,7 +53,6 @@ export const getProductByName = async (req, res) => {
         code: req.params.name,
       },
     });
-    console.log("return", product)
     res.json(product[0]);
   } catch (error) {
     res.json({ message: error.message });
