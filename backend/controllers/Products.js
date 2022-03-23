@@ -1,12 +1,31 @@
 import Product from "../models/productModel.js";
 
 export const getAllProducts = async (req, res) => {
-  try {
-    const products = await Product.findAll();
-    res.json(products);
-  } catch (error) {
-    res.json({ message: error.message });
-  }
+  const currentPage = req.query.page || 1;
+  const perPage = req.query.perPage || 5;
+  const category = req.query.category;
+  const delivery = req.query.delivery;
+
+  Product.findAndCountAll({
+    where: category ? {
+      category: category
+    } : null,
+    attributes: { exclude: ['description'] },
+    offset: (parseInt(currentPage) - 1) * parseInt(perPage),
+    limit: parseInt(perPage)
+  })
+    .then(result => {
+      res.status(200).json({
+        message: 'Success get Data Product',
+        data: result.rows,
+        total_data: result.count,
+        per_page: parseInt(perPage),
+        current_page: parseInt(currentPage),
+      })
+    })
+    .catch(err => {
+      next(err);
+    })
 };
 
 export const getProductById = async (req, res) => {
@@ -22,14 +41,30 @@ export const getProductById = async (req, res) => {
   }
 };
 
+export const getProductByName = async (req, res) => {
+  try {
+    const product = await Product.findAll({
+      where: {
+        code: req.params.name,
+      },
+    });
+    console.log("return", product)
+    res.json(product[0]);
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+};
+
 export const createProduct = async (req, res) => {
   try {
     const payload = {
       title: req.body.title,
       price: req.body.price,
+      description: req.body.description,
+      category: req.body.category,
+      delivery: req.body.delivery,
       image: req.file.path,
     };
-    console.log("payload product", payload);
     await Product.create(payload);
     res.json({
       message: "Product Created",

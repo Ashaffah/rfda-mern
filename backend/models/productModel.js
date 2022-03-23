@@ -5,14 +5,37 @@ const { DataTypes } = Sequelize;
 const Product = db.define(
   "products",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
     title: {
+      type: DataTypes.STRING,
+    },
+    code: {
+      type: DataTypes.STRING,
+    },
+    description: {
       type: DataTypes.STRING,
     },
     price: {
       type: DataTypes.DOUBLE,
     },
+    selling_price: {
+      type: DataTypes.DOUBLE,
+    },
+    sales: {
+      type: DataTypes.DOUBLE,
+    },
     image: {
       type: DataTypes.STRING,
+    },
+    category: {
+      type: DataTypes.INTEGER,
+    },
+    delivery: {
+      type: DataTypes.INTEGER,
     },
   },
   {

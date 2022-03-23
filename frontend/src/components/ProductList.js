@@ -10,9 +10,11 @@ const ProductList = () => {
   }, []);
 
   const getProduct = async () => {
-    const response = await axios.get("http://localhost:5000/products");
-    // console.log(response.data); Checking data
-    setProduct(response.data);
+    axios.get("http://localhost:5000/products?page=1&perPage=10").then((res) => {
+      setProduct(res.data.data);
+    }).catch((error) => {
+      alert(error)
+    });
   };
 
   const deleteProduct = async (id) => {
