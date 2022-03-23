@@ -24,7 +24,8 @@ const ProductList = () => {
 
   return (
     <div>
-      <Link to="/add" className="button is-primary mt-2">
+      <div className="is-size-3 has-text-weight-bold">Manage Product</div>
+      <Link to="/manage/product/add" className="button is-primary mt-2">
         Add New
       </Link>
       <table className="table is-striped is-fullwidth">
@@ -46,8 +47,14 @@ const ProductList = () => {
               <td>{product.price}</td>
               <td>
                 <Link
-                  to={`/edit/${product.id}`}
-                  className="button is-small is-info"
+                  to={`/product/detail/${product.code}`}
+                  className="button is-small is-warning"
+                >
+                  View
+                </Link>
+                <Link
+                  to={`/manage/product/edit/${product.id}`}
+                  className="button is-small is-info mx-2"
                 >
                   Edit
                 </Link>

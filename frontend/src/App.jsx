@@ -3,10 +3,11 @@ import {
   Route,
   Routes /*Switch no longer use*/,
 } from "react-router-dom";
-import AddProduct from "./components/AddProduct";
-import ProductList from "./components/ProductList";
-import EditProduct from "./components/EditProduct";
+import Homepage from "./components/Homepage";
 import ProductCard from "./components/ProductCard";
+import ProductList from "./components/ProductList";
+import AddProduct from "./components/AddProduct";
+import EditProduct from "./components/EditProduct";
 import DetailProduct from "./components/DetailProduct";
 import { Link } from "react-router-dom";
 
@@ -93,8 +94,9 @@ function App() {
             </div>
           </div>
         </nav>
+        <hr class="navbar-divider"></hr>
         <Routes>
-          <Route exact path="/" element={<ProductCard />}></Route>
+          <Route exact path="/" element={<Homepage />}></Route>
         </Routes>
         <Routes>
           <Route path="/product" element={<ProductCard />}></Route>
