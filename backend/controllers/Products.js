@@ -7,18 +7,32 @@ export const getAllProducts = async (req, res) => {
   const category = req.query.category;
   const delivery = req.query.delivery;
   const search = req.query.search;
+  // {
+  //   where: [
+  //     category != undefined && { category: category },
+  //     delivery != undefined && { delivery: delivery },
+  //     search != undefined && { title: { [Op.like]: `%${search}%` } },
+  //   ],
+  //   attributes: { exclude: ['description'] },
+  //   offset: (parseInt(currentPage) - 1) * parseInt(perPage),
+  //   limit: parseInt(perPage)
+  // }
+  let data = {}
+  if (category == undefined && delivery == undefined && search == undefined) {
+    data.where = {}
+  } else {
+    data.where = [
+      category != undefined && { category: category },
+      delivery != undefined && { delivery: delivery },
+      search != undefined && { title: { [Op.like]: `%${search}%` } },
+    ]
+  }
+  data.attributes = { exclude: ['description'] }
+  data.offset = (parseInt(currentPage) - 1) * parseInt(perPage)
+  data.limit = parseInt(perPage)
 
-  Product.findAndCountAll({
-    // where: category ? { category: category } : null,
-    where: [
-      category ? { category: category } : null,
-      delivery ? { delivery: delivery } : null,
-      search ? { title: { [Op.like]: `%${search}%` } } : null,
-    ],
-    attributes: { exclude: ['description'] },
-    offset: (parseInt(currentPage) - 1) * parseInt(perPage),
-    limit: parseInt(perPage)
-  })
+
+  Product.findAndCountAll(data)
     .then(result => {
       res.status(200).json({
         message: 'Success get Data Product',
