@@ -31,7 +31,7 @@ const Product = db.define(
     image: {
       type: DataTypes.STRING,
     },
-    category: {
+    category_id: {
       type: DataTypes.INTEGER,
     },
     delivery: {

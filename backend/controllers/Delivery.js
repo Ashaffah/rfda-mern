@@ -4,10 +4,9 @@ export const getAllKurir = async (req, res) => {
   const currentPage = req.query.page || 1;
   const perPage = req.query.perPage || 5;
 
-  Delivery.findAndCountAll({
-    // offset: (parseInt(currentPage) - 1) * parseInt(perPage),
-    // limit: parseInt(perPage)
-  })
+  let query = {}
+
+  Delivery.findAndCountAll(query)
     .then(result => {
       res.status(200).json({
         message: 'Success get Data Delivery',

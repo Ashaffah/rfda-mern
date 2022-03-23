@@ -1,6 +1,6 @@
 import express from "express";
 import db from "./config/database.js";
-import productRoute from "./routes/index.js";
+import productRoute from "./routes/product.js";
 import categoryRoute from "./routes/category.js";
 import deliveryRoute from "./routes/delivery.js";
 import cors from "cors";
