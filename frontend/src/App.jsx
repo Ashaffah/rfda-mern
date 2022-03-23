@@ -21,7 +21,7 @@ function App() {
               to={`/`}
               className="navbar-item"
             >
-              <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" />
+              <div className="has-text-centered is-size-4 has-text-weight-bold">RF|DA</div>
             </Link>
 
             <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
