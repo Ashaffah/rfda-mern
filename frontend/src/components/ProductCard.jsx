@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import CurrencyFormat from "react-currency-format";
 
 const ProductCard = () => {
   const [product, setProduct] = useState([]);
@@ -80,18 +81,23 @@ const ProductCard = () => {
     // ]
     // setProduct(dummyData);
 
-    axios.get("http://localhost:5000/products?page=1&perPage=10").then((res) => {
-      setProduct(res.data.data);
-    }).catch((error) => {
-      alert(error)
-    });
+    axios
+      .get("http://localhost:5000/products?page=1&perPage=10")
+      .then((res) => {
+        setProduct(res.data.data);
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   return (
     <div className="my-6">
       <div className="columns">
         <div className="column is-2">
-          <div className="has-text-weight-bold is-size-4 has-text-centered mb-3">Filter</div>
+          <div className="has-text-weight-bold is-size-4 has-text-centered mb-3">
+            Filter
+          </div>
           <div className="card p-4">
             <div className="has-text-weight-bold mb-2">Kategori</div>
             <div className="">Filter</div>
@@ -109,10 +115,8 @@ const ProductCard = () => {
           <div className="columns is-multiline">
             {product.map((val, idx) => (
               <div className="column is-3" key={idx}>
-                <Link
-                  to={`/product/detail/${val.code}`}
-                >
-                  <div className="card">
+                <Link to={`/product/detail/${val.code}`}>
+                  <div className="card" style={{ height: "100%" }}>
                     <div className="card-image">
                       <figure className="image is-4by4">
                         <img
@@ -125,8 +129,77 @@ const ProductCard = () => {
                     <div className="card-content">
                       <div className="content">
                         <div className="has-text-weight-bold">{val.title}</div>
-                        <div>Rp. {val.price}</div>
-
+                        {val.selling_price > 0 ? (
+                          <>
+                            <div
+                              style={{
+                                display: "flex",
+                              }}
+                            >
+                              <div
+                                className="has-background-success px-2 mr-2 is-size-7 has-text-white"
+                                style={{
+                                  borderRadius: "20%",
+                                  textAlign: "center",
+                                }}
+                              >
+                                {(
+                                  (val.selling_price / val.price) *
+                                  100
+                                ).toFixed(0)}
+                                %
+                              </div>
+                              <div
+                                style={{
+                                  textDecorationLine: "line-through",
+                                  textDecorationStyle: "solid",
+                                }}
+                              >
+                                <CurrencyFormat
+                                  value={val.price}
+                                  displayType={"text"}
+                                  thousandSeparator={true}
+                                  prefix={"Rp. "}
+                                />
+                              </div>
+                            </div>
+                            <div
+                              className="has-text-weight-bold"
+                              style={{
+                                color: "#fa591d",
+                              }}
+                            >
+                              <CurrencyFormat
+                                value={val.selling_price}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                prefix={"Rp. "}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              style={{
+                                display: "flex",
+                              }}
+                            >
+                              <div
+                                className="has-text-weight-bold"
+                                style={{
+                                  color: "#fa591d",
+                                }}
+                              >
+                                <CurrencyFormat
+                                  value={val.price}
+                                  displayType={"text"}
+                                  thousandSeparator={true}
+                                  prefix={"Rp. "}
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
