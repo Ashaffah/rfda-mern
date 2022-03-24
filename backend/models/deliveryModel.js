@@ -5,9 +5,8 @@ const { DataTypes } = Sequelize;
 const Delivery = db.define(
   "delivery",
   {
-    name: {
-      type: DataTypes.STRING,
-    },
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    name: { type: DataTypes.STRING },
   },
   {
     freezeTableName: true,

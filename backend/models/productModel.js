@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
+import Category from "./categoryModel.js";
+import Delivery from "./deliveryModel.js";
 
 const { DataTypes } = Sequelize;
 const Product = db.define(
@@ -40,6 +42,10 @@ const Product = db.define(
   },
   {
     freezeTableName: true,
+    timestamps: false,
   }
 );
+
+Product.belongsTo(Category, { foreignKey: "category_id" });
+
 export default Product;
