@@ -34,7 +34,7 @@ const Product = db.define(
     category_id: {
       type: DataTypes.INTEGER,
     },
-    delivery: {
+    delivery_id: {
       type: DataTypes.INTEGER,
     },
   },

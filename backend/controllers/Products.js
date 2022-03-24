@@ -14,7 +14,7 @@ export const getAllProducts = async (req, res) => {
   } else {
     query.where = [
       category != undefined && { category_id: category },
-      delivery != undefined && { delivery: delivery },
+      delivery != undefined && { delivery_id: delivery },
       search != undefined && { title: { [Op.like]: `%${search}%` } },
     ]
   }
