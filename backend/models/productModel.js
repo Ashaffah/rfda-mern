@@ -8,7 +8,7 @@ const Product = db.define(
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
     },
     title: {
       type: DataTypes.STRING,

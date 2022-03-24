@@ -17,14 +17,19 @@ function App() {
       <div className="container">
         <nav className="navbar" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <Link
-              to={`/`}
-              className="navbar-item"
-            >
-              <div className="has-text-centered is-size-4 has-text-weight-bold">RF|DA</div>
+            <Link to={`/`} className="navbar-item">
+              <div className="has-text-centered is-size-4 has-text-weight-bold">
+                RF|DA
+              </div>
             </Link>
 
-            <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <a
+              role="button"
+              className="navbar-burger"
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarBasicExample"
+            >
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
@@ -33,62 +38,44 @@ function App() {
 
           <div id="navbarBasicExample" className="navbar-menu">
             <div className="navbar-start">
-              <Link
-                to={`/`}
-                className="navbar-item"
-              >
+              <Link to={`/`} className="navbar-item">
                 Home
               </Link>
-              <Link
-                to={`/product`}
-                className="navbar-item"
-              >
+              <Link to={`/product`} className="navbar-item">
                 Product
               </Link>
-              <Link
-                to={`/category`}
-                className="navbar-item"
-              >
+              <Link to={`/category`} className="navbar-item">
                 Caregory
               </Link>
 
               <div className="navbar-item has-dropdown is-hoverable">
-                <a className="navbar-link">
-                  Manage
-                </a>
+                <a className="navbar-link">Manage</a>
 
                 <div className="navbar-dropdown">
-                  <Link
-                    to={`/manage/product`}
-                    className="navbar-item"
-                  >
+                  <Link to={`/manage/product`} className="navbar-item">
                     Product
                   </Link>
-                  <Link
-                    to={`/manage/category`}
-                    className="navbar-item"
-                  >
+                  <Link to={`/manage/category`} className="navbar-item">
                     Category
                   </Link>
-                  <Link
-                    to={`/manage/delivery`}
-                    className="navbar-item"
-                  >
+                  <Link to={`/manage/delivery`} className="navbar-item">
                     Delivery
                   </Link>
                 </div>
               </div>
             </div>
-
+            <div class="field">
+              <p class="control">
+                <input class="input" type="text" placeholder="Search" />
+              </p>
+            </div>
             <div className="navbar-end">
               <div className="navbar-item">
                 <div className="buttons">
                   <a className="button is-primary">
                     <strong>Sign up</strong>
                   </a>
-                  <a className="button is-light">
-                    Log in
-                  </a>
+                  <a className="button is-light">Log in</a>
                 </div>
               </div>
             </div>
@@ -102,7 +89,10 @@ function App() {
           <Route path="/product" element={<ProductCard />}></Route>
         </Routes>
         <Routes>
-          <Route path="product/detail/:name" element={<DetailProduct />}></Route>
+          <Route
+            path="product/detail/:name"
+            element={<DetailProduct />}
+          ></Route>
         </Routes>
         <Routes>
           <Route path="/manage/product" element={<ProductList />}></Route>
@@ -111,7 +101,10 @@ function App() {
           <Route path="/manage/product/add" element={<AddProduct />}></Route>
         </Routes>
         <Routes>
-          <Route path="/manage/product/edit/:id" element={<EditProduct />}></Route>
+          <Route
+            path="/manage/product/edit/:id"
+            element={<EditProduct />}
+          ></Route>
         </Routes>
       </div>
     </Router>

@@ -8,34 +8,33 @@ export const getAllProducts = async (req, res) => {
   const delivery = req.query.delivery;
   const search = req.query.search;
 
-  let query = {}
+  let query = {};
   if (category == undefined && delivery == undefined && search == undefined) {
-    query.where = {}
+    query.where = {};
   } else {
     query.where = [
       category != undefined && { category_id: category },
       delivery != undefined && { delivery_id: delivery },
       search != undefined && { title: { [Op.like]: `%${search}%` } },
-    ]
+    ];
   }
-  query.attributes = { exclude: ['description'] }
-  query.offset = (parseInt(currentPage) - 1) * parseInt(perPage)
-  query.limit = parseInt(perPage)
-
+  query.attributes = { exclude: ["description"] };
+  query.offset = (parseInt(currentPage) - 1) * parseInt(perPage);
+  query.limit = parseInt(perPage);
 
   Product.findAndCountAll(query)
-    .then(result => {
+    .then((result) => {
       res.status(200).json({
-        message: 'Success get Data Product',
+        message: "Success get Data Product",
         data: result.rows,
         total_data: result.count,
         per_page: parseInt(perPage),
         current_page: parseInt(currentPage),
-      })
+      });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
-    })
+    });
 };
 
 export const getProductById = async (req, res) => {

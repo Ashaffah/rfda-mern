@@ -5,86 +5,34 @@ import CurrencyFormat from "react-currency-format";
 
 const ProductCard = () => {
   const [product, setProduct] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [categoryName, setCategoryName] = useState([]);
 
   useEffect(() => {
     getProduct();
+    getCategory();
   }, []);
 
   const getProduct = async () => {
-    // const dummyData = [
-    //   {
-    //     id: 1,
-    //     title: "aasdfga",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 2,
-    //     title: "bbxcfdgb",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 3,
-    //     title: "cccxvbc",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 4,
-    //     title: "ddsdfgdsfd",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 5,
-    //     title: "eexcvbxcve",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 6,
-    //     title: "fdsfgsdff",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 7,
-    //     title: "gxcvbxcgg",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 8,
-    //     title: "dfgsfd",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 9,
-    //     title: "isdfgsdii",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 10,
-    //     title: "dfgdfg",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   },
-    //   {
-    //     id: 11,
-    //     title: "ixcvbxcii",
-    //     image: "sdfgsdfg",
-    //     price: "555",
-    //   }
-    // ]
-    // setProduct(dummyData);
-
     axios
+      // .get(
+      //   "http://localhost:5000/products?page=1&perPage=10&category=3&delivery=5&search=Kaos"
+      // )
       .get("http://localhost:5000/products?page=1&perPage=10")
       .then((res) => {
         setProduct(res.data.data);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  const getCategory = async () => {
+    axios
+      .get("http://localhost:5000/category")
+      .then((res) => {
+        setCategory(res.data.data);
+        // console.log("Data Terpanggil", res.data.data);
       })
       .catch((error) => {
         alert(error);
@@ -100,10 +48,18 @@ const ProductCard = () => {
           </div>
           <div className="card p-4">
             <div className="has-text-weight-bold mb-2">Kategori</div>
-            <div className="">Filter</div>
-            <div className="">Filter</div>
-            <div className="">Filter</div>
-            <div className="">Filter</div>
+            {category.map((val, idx) => (
+              <div className="" key={idx} href="#">
+                <a
+                  href="http://localhost:5000/category"
+                  // target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  // onClick={console.log("The link has been clicked.", val.name)}
+                >
+                  {val.name}
+                </a>
+              </div>
+            ))}
             <div className="has-text-weight-bold my-2">Pengiriman</div>
             <div className="">Filter</div>
             <div className="">Filter</div>
