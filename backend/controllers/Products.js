@@ -1,4 +1,6 @@
 import Product from "../models/productModel.js";
+import Category from "../models/categoryModel.js";
+import Delivery from "../models/categoryModel.js";
 import { Op } from "sequelize";
 
 export const getAllProducts = async (req, res) => {
@@ -18,6 +20,7 @@ export const getAllProducts = async (req, res) => {
       search != undefined && { title: { [Op.like]: `%${search}%` } },
     ]
   }
+  query.include = [{ model: Category }]
   query.attributes = { exclude: ['description'] }
   query.offset = (parseInt(currentPage) - 1) * parseInt(perPage)
   query.limit = parseInt(perPage)
