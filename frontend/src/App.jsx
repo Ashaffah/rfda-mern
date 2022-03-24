@@ -9,6 +9,7 @@ import ProductList from "./components/ProductList";
 import AddProduct from "./components/AddProduct";
 import EditProduct from "./components/EditProduct";
 import DetailProduct from "./components/DetailProduct";
+import SearchBar from "./components/SearchBar";
 import { Link } from "react-router-dom";
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
           </div>
 
           <div id="navbarBasicExample" className="navbar-menu">
-            <div className="navbar-start">
+            <div className="navbar-start mr-6">
               <Link to={`/`} className="navbar-item">
                 Home
               </Link>
@@ -64,11 +65,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <div class="field">
-              <p class="control">
-                <input class="input" type="text" placeholder="Search" />
-              </p>
-            </div>
+            <SearchBar />
             <div className="navbar-end">
               <div className="navbar-item">
                 <div className="buttons">
@@ -81,7 +78,7 @@ function App() {
             </div>
           </div>
         </nav>
-        <hr class="navbar-divider"></hr>
+        <hr className="navbar-divider"></hr>
         <Routes>
           <Route exact path="/" element={<Homepage />}></Route>
         </Routes>
