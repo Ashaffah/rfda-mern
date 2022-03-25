@@ -14,7 +14,6 @@ const ProductCard = () => {
   }, []);
 
   const getProduct = async (category = null) => {
-
     // http://localhost:5000/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
 
     const paramCategory = category != null ? `&category=${category}` : null;
@@ -50,14 +49,24 @@ const ProductCard = () => {
           <div className="card p-4">
             <div className="has-text-weight-bold mb-2">Kategori</div>
             {category.map((val, idx) => (
-              <div className={dataFilter.category.name == val.name ? 'has-text-weight-bold' : null} key={idx} onClick={() => {
-                getProduct(val.id);
-                setDataFilter(prevState => ({
-                  ...prevState,
-                  category: val
-                }));
-              }}>
-                {val.name}
+              <div>
+                <a
+                  className={
+                    dataFilter.category.name == val.name
+                      ? "has-text-weight-bold"
+                      : null
+                  }
+                  key={idx}
+                  onClick={() => {
+                    getProduct(val.id);
+                    setDataFilter((prevState) => ({
+                      ...prevState,
+                      category: val,
+                    }));
+                  }}
+                >
+                  {val.name}
+                </a>
               </div>
             ))}
             <div className="has-text-weight-bold my-2">Pengiriman</div>
