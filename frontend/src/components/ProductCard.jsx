@@ -6,20 +6,26 @@ import CurrencyFormat from "react-currency-format";
 const ProductCard = () => {
   const [product, setProduct] = useState([]);
   const [category, setCategory] = useState([]);
-  const [dataFilter, setDataFilter] = useState({ category: {} });
+  const [dataFilter, setDataFilter] = useState({ category: {}, delivery: {} });
+  const [delivery, setDelivery] = useState([]);
 
   useEffect(() => {
     getProduct();
     getCategory();
+    getDelivery();
   }, []);
 
-  const getProduct = async (category = null) => {
+  const getProduct = async (category = null, delivery = null) => {
     // http://localhost:5000/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
 
     const paramCategory = category != null ? `&category=${category}` : null;
-
+    const paramDelivery = delivery != null ? `&delivery=${delivery}` : null;
+    // console.log("category", category);
+    // console.log("delivery", delivery);
     axios
-      .get(`http://localhost:5000/products?page=1&perPage=10${paramCategory}`)
+      .get(
+        `http://localhost:5000/products?page=1&perPage=10${paramCategory}${paramDelivery}`
+      )
       .then((res) => {
         setProduct(res.data.data);
       })
@@ -39,6 +45,17 @@ const ProductCard = () => {
       });
   };
 
+  const getDelivery = async (delivery) => {
+    axios
+      .get("http://localhost:5000/delivery")
+      .then((res) => {
+        setDelivery(res.data.data);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
   return (
     <div className="my-6">
       <div className="columns">
@@ -49,16 +66,15 @@ const ProductCard = () => {
           <div className="card p-4">
             <div className="has-text-weight-bold mb-2">Kategori</div>
             {category.map((val, idx) => (
-              <div>
+              <div key={idx}>
                 <a
                   className={
                     dataFilter.category.name == val.name
                       ? "has-text-weight-bold"
                       : null
                   }
-                  key={idx}
                   onClick={() => {
-                    getProduct(val.id);
+                    getProduct(val.id, null);
                     setDataFilter((prevState) => ({
                       ...prevState,
                       category: val,
@@ -70,10 +86,26 @@ const ProductCard = () => {
               </div>
             ))}
             <div className="has-text-weight-bold my-2">Pengiriman</div>
-            <div className="">Filter</div>
-            <div className="">Filter</div>
-            <div className="">Filter</div>
-            <div className="">Filter</div>
+            {delivery.map((val, idx) => (
+              <div key={idx}>
+                <a
+                  className={
+                    dataFilter.delivery.name == val.name
+                      ? "has-text-weight-bold"
+                      : null
+                  }
+                  onClick={() => {
+                    getProduct(null, val.id);
+                    setDataFilter((prevState) => ({
+                      ...prevState,
+                      delivery: val,
+                    }));
+                  }}
+                >
+                  {val.name}
+                </a>
+              </div>
+            ))}
           </div>
         </div>
         <div className="column is-10">
