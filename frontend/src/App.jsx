@@ -11,6 +11,7 @@ import EditProduct from "./components/EditProduct";
 import DetailProduct from "./components/DetailProduct";
 import SearchBar from "./components/SearchBar";
 import { Link } from "react-router-dom";
+import React from "react";
 
 function App() {
   return (

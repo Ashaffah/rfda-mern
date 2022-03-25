@@ -18,10 +18,10 @@ const ProductCard = () => {
   const getProduct = async (category = null, delivery = null) => {
     // http://localhost:5000/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
 
-    const paramCategory = category != null ? `&category=${category}` : null;
-    const paramDelivery = delivery != null ? `&delivery=${delivery}` : null;
-    // console.log("category", category);
-    // console.log("delivery", delivery);
+    const paramCategory = category != null ? `&category=${category}` : "";
+    const paramDelivery = delivery != null ? `&delivery=${delivery}` : "";
+    console.log("category", category);
+    console.log("delivery", delivery);
     axios
       .get(
         `http://localhost:5000/products?page=1&perPage=10${paramCategory}${paramDelivery}`
@@ -65,47 +65,66 @@ const ProductCard = () => {
           </div>
           <div className="card p-4">
             <div className="has-text-weight-bold mb-2">Kategori</div>
-            {category.map((val, idx) => (
-              <div key={idx}>
-                <a
-                  className={
-                    dataFilter.category.name == val.name
-                      ? "has-text-weight-bold"
-                      : null
-                  }
-                  onClick={() => {
-                    getProduct(val.id, null);
-                    setDataFilter((prevState) => ({
-                      ...prevState,
-                      category: val,
-                    }));
-                  }}
-                >
-                  {val.name}
-                </a>
-              </div>
-            ))}
+            <a>
+              {category.map((val, idx) => (
+                <div className="has-text-black-bis" key={idx}>
+                  <span
+                    className={
+                      dataFilter.category.name == val.name
+                        ? "has-text-weight-bold"
+                        : null
+                    }
+                    onClick={() => {
+                      getProduct(val.id, dataFilter.delivery.id);
+                      setDataFilter((prevState) => ({
+                        ...prevState,
+                        category: val,
+                      }));
+                    }}
+                  >
+                    {val.name}
+                  </span>
+                </div>
+              ))}
+            </a>
             <div className="has-text-weight-bold my-2">Pengiriman</div>
-            {delivery.map((val, idx) => (
-              <div key={idx}>
-                <a
-                  className={
-                    dataFilter.delivery.name == val.name
-                      ? "has-text-weight-bold"
-                      : null
-                  }
-                  onClick={() => {
-                    getProduct(null, val.id);
-                    setDataFilter((prevState) => ({
-                      ...prevState,
-                      delivery: val,
-                    }));
-                  }}
-                >
-                  {val.name}
-                </a>
-              </div>
-            ))}
+            <a>
+              {delivery.map((val, idx) => (
+                <div className="has-text-black-bis" key={idx}>
+                  <div
+                    className={
+                      dataFilter.delivery.name == val.name
+                        ? "has-text-weight-bold"
+                        : null
+                    }
+                    onClick={() => {
+                      getProduct(dataFilter.category.id, val.id);
+                      setDataFilter((prevState) => ({
+                        ...prevState,
+                        delivery: val,
+                      }));
+                    }}
+                  >
+                    {val.name}
+                  </div>
+                </div>
+              ))}
+            </a>
+            <div>
+              <button
+                className="button has-text-danger-dark mt-4"
+                onClick={() => {
+                  getProduct(null, null);
+                  setDataFilter((prevState) => ({
+                    ...prevState,
+                    category: {},
+                    delivery: {},
+                  }));
+                }}
+              >
+                Reset Filter
+              </button>
+            </div>
           </div>
         </div>
         <div className="column is-10">
