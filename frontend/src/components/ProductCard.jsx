@@ -110,21 +110,21 @@ const ProductCard = () => {
                 </div>
               ))}
             </a>
-            <div>
-              <button
-                className="button has-text-danger-dark mt-4"
-                onClick={() => {
-                  getProduct(null, null);
-                  setDataFilter((prevState) => ({
-                    ...prevState,
-                    category: {},
-                    delivery: {},
-                  }));
-                }}
-              >
-                Reset Filter
-              </button>
-            </div>
+            <div></div>
+            <button
+              className="button has-text-danger-dark mt-4"
+              style={{ width: "100%" }}
+              onClick={() => {
+                getProduct(null, null);
+                setDataFilter((prevState) => ({
+                  ...prevState,
+                  category: {},
+                  delivery: {},
+                }));
+              }}
+            >
+              Reset Filter
+            </button>
           </div>
         </div>
         <div className="column is-10">
