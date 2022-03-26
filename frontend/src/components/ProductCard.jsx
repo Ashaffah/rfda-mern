@@ -111,20 +111,21 @@ const ProductCard = () => {
               ))}
             </a>
             <div>
-              <button
-                className="button has-text-danger-dark mt-4"
-                onClick={() => {
-                  getProduct(null, null);
-                  setDataFilter((prevState) => ({
-                    ...prevState,
-                    category: {},
-                    delivery: {},
-                  }));
-                }}
-              >
-                Reset Filter
-              </button>
             </div>
+            <button
+              className="button has-text-danger-dark mt-4"
+              style={{ width: '100%' }}
+              onClick={() => {
+                getProduct(null, null);
+                setDataFilter((prevState) => ({
+                  ...prevState,
+                  category: {},
+                  delivery: {},
+                }));
+              }}
+            >
+              Reset Filter
+            </button>
           </div>
         </div>
         <div className="column is-10">
@@ -142,7 +143,7 @@ const ProductCard = () => {
                         />
                       </figure>
                     </div>
-                    <div className="card-content">
+                    <div style={{ padding: "1rem" }} className="card-content">
                       <div className="content">
                         <div className="has-text-weight-bold">{val.title}</div>
                         {val.selling_price > 0 ? (
@@ -153,7 +154,7 @@ const ProductCard = () => {
                               }}
                             >
                               <div
-                                className="has-background-success px-2 mr-2 is-size-7 has-text-white"
+                                className="has-background-success px-2 mr-2 is-size-7 has-text-white my-auto py-1"
                                 style={{
                                   borderRadius: "20%",
                                   textAlign: "center",
@@ -162,13 +163,14 @@ const ProductCard = () => {
                                 {(
                                   (val.selling_price / val.price) *
                                   100
-                                ).toFixed(0)}
-                                %
+                                ).toFixed(0) + "%"}
                               </div>
                               <div
                                 style={{
                                   textDecorationLine: "line-through",
                                   textDecorationStyle: "solid",
+                                  color: "gray",
+                                  fontSize: "14px"
                                 }}
                               >
                                 <CurrencyFormat
@@ -223,6 +225,17 @@ const ProductCard = () => {
               </div>
             ))}
           </div>
+          <nav class="pagination" role="navigation" aria-label="pagination">
+            <a class="pagination-previous">Previous</a>
+            <a class="pagination-next">Next</a>
+            <ul class="pagination-list">
+              <li><a class="pagination-link">1</a></li>
+              <li><a class="pagination-link is-current">2</a></li>
+              <li><a class="pagination-link">3</a></li>
+              <li><a class="pagination-link">4</a></li>
+              <li><a class="pagination-link">5</a></li>
+            </ul>
+          </nav>
         </div>
       </div>
       {/* </Container> */}
