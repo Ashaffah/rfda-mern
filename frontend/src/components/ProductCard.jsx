@@ -24,7 +24,7 @@ const ProductCard = () => {
     console.log("delivery", delivery);
     axios
       .get(
-        `http://localhost:5000/products?page=1&perPage=10${paramCategory}${paramDelivery}`
+        `http://localhost:5000/products?page=1&perPage=12${paramCategory}${paramDelivery}`
       )
       .then((res) => {
         setProduct(res.data.data);
@@ -128,101 +128,161 @@ const ProductCard = () => {
           </div>
         </div>
         <div className="column is-10">
-          <div className="columns is-multiline">
-            {product.map((val, idx) => (
-              <div className="column is-3" key={idx}>
-                <Link to={`/product/detail/${val.code}`}>
-                  <div className="card" style={{ height: "100%" }}>
-                    <div className="card-image">
-                      <figure className="image is-4by4">
-                        <img
-                          // src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/7/28/16445adf-dfb5-47d9-a43e-d896937d6fc6.jpg.webp?ect=4g"
-                          src={"http://localhost:5000/" + val.image}
-                          alt="Placeholder image"
-                        />
-                      </figure>
-                    </div>
-                    <div className="card-content">
-                      <div className="content">
-                        <div className="has-text-weight-bold">{val.title}</div>
-                        {val.selling_price > 0 ? (
-                          <>
-                            <div
-                              style={{
-                                display: "flex",
-                              }}
-                            >
-                              <div
-                                className="has-background-success px-2 mr-2 is-size-7 has-text-white"
-                                style={{
-                                  borderRadius: "20%",
-                                  textAlign: "center",
-                                }}
-                              >
-                                {(
-                                  (val.selling_price / val.price) *
-                                  100
-                                ).toFixed(0)}
-                                %
-                              </div>
-                              <div
-                                style={{
-                                  textDecorationLine: "line-through",
-                                  textDecorationStyle: "solid",
-                                }}
-                              >
-                                <CurrencyFormat
-                                  value={val.price}
-                                  displayType={"text"}
-                                  thousandSeparator={true}
-                                  prefix={"Rp. "}
-                                />
-                              </div>
-                            </div>
-                            <div
-                              className="has-text-weight-bold"
-                              style={{
-                                color: "#fa591d",
-                              }}
-                            >
-                              <CurrencyFormat
-                                value={val.selling_price}
-                                displayType={"text"}
-                                thousandSeparator={true}
-                                prefix={"Rp. "}
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div
-                              style={{
-                                display: "flex",
-                              }}
-                            >
-                              <div
-                                className="has-text-weight-bold"
-                                style={{
-                                  color: "#fa591d",
-                                }}
-                              >
-                                <CurrencyFormat
-                                  value={val.price}
-                                  displayType={"text"}
-                                  thousandSeparator={true}
-                                  prefix={"Rp. "}
-                                />
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </Link>
+          {product.length < 1 ? (
+            <div className="box">
+              <div className="has-text-weight-bold is-size-4">
+                Oops, produk nggak ditemukan
               </div>
-            ))}
-          </div>
+              <div>
+                Coba kata kunci lain atau cek produk rekomendasi di bawah.
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="columns is-multiline">
+                {product.map((val, idx) => (
+                  <div className="column is-3" key={idx}>
+                    <Link to={`/product/detail/${val.code}`}>
+                      <div className="card" style={{ height: "100%" }}>
+                        <div className="card-image">
+                          <figure className="image is-4by4">
+                            <img
+                              // src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/7/28/16445adf-dfb5-47d9-a43e-d896937d6fc6.jpg.webp?ect=4g"
+                              src={"http://localhost:5000/" + val.image}
+                              alt="Placeholder image"
+                            />
+                          </figure>
+                        </div>
+                        <div className="card-content">
+                          <div className="content">
+                            <div className="has-text-weight-bold">
+                              {val.title}
+                            </div>
+                            {val.selling_price > 0 ? (
+                              <>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                  }}
+                                >
+                                  <div
+                                    className="has-background-success px-2 mr-2 is-size-7 has-text-white"
+                                    style={{
+                                      borderRadius: "20%",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    {(
+                                      (val.selling_price / val.price) *
+                                      100
+                                    ).toFixed(0)}
+                                    %
+                                  </div>
+                                  <div
+                                    style={{
+                                      textDecorationLine: "line-through",
+                                      textDecorationStyle: "solid",
+                                    }}
+                                  >
+                                    <CurrencyFormat
+                                      value={val.price}
+                                      displayType={"text"}
+                                      thousandSeparator={true}
+                                      prefix={"Rp. "}
+                                    />
+                                  </div>
+                                </div>
+                                <div
+                                  className="has-text-weight-bold"
+                                  style={{
+                                    color: "#fa591d",
+                                  }}
+                                >
+                                  <CurrencyFormat
+                                    value={val.selling_price}
+                                    displayType={"text"}
+                                    thousandSeparator={true}
+                                    prefix={"Rp. "}
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                  }}
+                                >
+                                  <div
+                                    className="has-text-weight-bold"
+                                    style={{
+                                      color: "#fa591d",
+                                    }}
+                                  >
+                                    <CurrencyFormat
+                                      value={val.price}
+                                      displayType={"text"}
+                                      thousandSeparator={true}
+                                      prefix={"Rp. "}
+                                    />
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+              <nav
+                className="pagination"
+                role="navigation"
+                aria-label="pagination"
+              >
+                <a className="pagination-previous">Previous</a>
+                <a className="pagination-next">Next</a>
+                <ul className="pagination-list">
+                  {product.map((val, idx) => (
+                    <li key={idx}>
+                      <a
+                        className="pagination-link"
+                        onClick={() => {
+                          console.log("idx", idx);
+                        }}
+                      >
+                        {idx + 1}
+                      </a>
+                    </li>
+                  ))}
+                  {/* <li>
+                    <a className="pagination-link">1</a>
+                  </li>
+                  <li>
+                    {/* <a
+                      style={{
+                        backgroundColor: "#fa591d",
+                        borderColor: "#fa591d",
+                      }}
+                      className="pagination-link is-current"
+                    >
+                      2
+                    </a>
+                  </li>
+                  {/* <li>
+                    <a className="pagination-link">3</a>
+                  </li>
+                  <li>
+                    <a className="pagination-link">4</a>
+                  </li>
+                  <li>
+                    <a className="pagination-link">5</a>
+                  </li> */}
+                </ul>
+              </nav>
+            </>
+          )}
         </div>
       </div>
       {/* </Container> */}
