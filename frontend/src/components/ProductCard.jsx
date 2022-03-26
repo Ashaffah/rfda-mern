@@ -6,7 +6,11 @@ import CurrencyFormat from "react-currency-format";
 const ProductCard = () => {
   const [product, setProduct] = useState([]);
   const [category, setCategory] = useState([]);
-  const [dataFilter, setDataFilter] = useState({ category: {}, delivery: {} });
+  const [dataFilter, setDataFilter] = useState({
+    category: {},
+    delivery: {},
+    page: 1,
+  });
   const [delivery, setDelivery] = useState([]);
   const [pagination, setPagination] = useState([]);
 
@@ -16,28 +20,29 @@ const ProductCard = () => {
     getDelivery();
   }, []);
 
-  const getProduct = async (category = null, delivery = null) => {
+  const getProduct = async (category = null, delivery = null, page = null) => {
     // http://localhost:5000/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
 
     const paramCategory = category != null ? `&category=${category}` : "";
     const paramDelivery = delivery != null ? `&delivery=${delivery}` : "";
+    const paramPage = page != null ? `page=${page}` : "";
     // console.log("category", category);
     // console.log("delivery", delivery);
     axios
       .get(
-        `http://localhost:5000/products?page=1&perPage=12${paramCategory}${paramDelivery}`
+        `http://localhost:5000/products?${paramPage}&perPage=12${paramCategory}${paramDelivery}`
       )
       .then((res) => {
         setProduct(res.data.data);
 
         const countData = Math.ceil(res.data.total_data / 12);
-        let dataPagination = []
+        let dataPagination = [];
 
         for (let i = 0; i < countData; i++) {
-          dataPagination.push(i)
+          dataPagination.push(i);
         }
 
-        setPagination(dataPagination)
+        setPagination(dataPagination);
       })
       .catch((error) => {
         alert(error);
@@ -246,62 +251,52 @@ const ProductCard = () => {
                   </div>
                 ))}
               </div>
-              <nav
-                className="pagination"
-                role="navigation"
-                aria-label="pagination"
-              >
-                <a className="pagination-previous">Previous</a>
-                <a className="pagination-next">Next</a>
-                <ul className="pagination-list">
-
-
-
-                  {pagination.map((val, idx) => (
-                    <li key={idx}>
-                      <a
-                        className="pagination-link"
-                        onClick={() => {
-                          console.log("idx", idx + 1);
-                        }}
-                      >
-                        {idx + 1}
-                      </a>
-                    </li>
-                  ))}
-
-
-
-
-
-
-                  {/* <li>
-                    <a className="pagination-link">1</a>
-                  </li>
-                  <li>
-                    {/* <a
-                      style={{
-                        backgroundColor: "#fa591d",
-                        borderColor: "#fa591d",
-                      }}
-                      className="pagination-link is-current"
-                    >
-                      2
-                    </a>
-                  </li>
-                  {/* <li>
-                    <a className="pagination-link">3</a>
-                  </li>
-                  <li>
-                    <a className="pagination-link">4</a>
-                  </li>
-                  <li>
-                    <a className="pagination-link">5</a>
-                  </li> */}
-
-
-                </ul>
-              </nav>
+              {pagination.length > 1 ? (
+                <nav
+                  className="pagination"
+                  role="navigation"
+                  aria-label="pagination"
+                >
+                  <a className="pagination-previous">Previous</a>
+                  <a className="pagination-next">Next</a>
+                  <ul className="pagination-list">
+                    {/* {console.log("dataFilter", dataFilter)} */}
+                    {pagination.map((val, idx) => (
+                      <li key={idx}>
+                        <a
+                          style={
+                            dataFilter.page === idx + 1
+                              ? {
+                                  backgroundColor: "#fa591d",
+                                  borderColor: "#fa591d",
+                                }
+                              : {}
+                          }
+                          className={
+                            dataFilter.page === idx + 1
+                              ? "pagination-link is-current"
+                              : "pagination-link"
+                          }
+                          onClick={() => {
+                            getProduct(
+                              dataFilter.category.id,
+                              dataFilter.delivery.id,
+                              idx + 1
+                            );
+                            setDataFilter((prevState) => ({
+                              ...prevState,
+                              page: idx + 1,
+                            }));
+                            // console.log("idx", idx + 1);
+                          }}
+                        >
+                          {idx + 1}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              ) : null}
             </>
           )}
         </div>
