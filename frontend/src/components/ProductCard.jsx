@@ -24,7 +24,7 @@ const ProductCard = () => {
     console.log("delivery", delivery);
     axios
       .get(
-        `http://localhost:5000/products?page=1&perPage=10${paramCategory}${paramDelivery}`
+        `http://localhost:5000/products?page=1&perPage=12${paramCategory}${paramDelivery}`
       )
       .then((res) => {
         setProduct(res.data.data);
