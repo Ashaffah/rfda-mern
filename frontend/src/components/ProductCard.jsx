@@ -8,6 +8,7 @@ const ProductCard = () => {
   const [category, setCategory] = useState([]);
   const [dataFilter, setDataFilter] = useState({ category: {}, delivery: {} });
   const [delivery, setDelivery] = useState([]);
+  const [pagination, setPagination] = useState([]);
 
   useEffect(() => {
     getProduct();
@@ -20,14 +21,23 @@ const ProductCard = () => {
 
     const paramCategory = category != null ? `&category=${category}` : "";
     const paramDelivery = delivery != null ? `&delivery=${delivery}` : "";
-    console.log("category", category);
-    console.log("delivery", delivery);
+    // console.log("category", category);
+    // console.log("delivery", delivery);
     axios
       .get(
         `http://localhost:5000/products?page=1&perPage=12${paramCategory}${paramDelivery}`
       )
       .then((res) => {
         setProduct(res.data.data);
+
+        const countData = Math.ceil(res.data.total_data / 12);
+        let dataPagination = []
+
+        for (let i = 0; i < countData; i++) {
+          dataPagination.push(i)
+        }
+
+        setPagination(dataPagination)
       })
       .catch((error) => {
         alert(error);
@@ -244,18 +254,27 @@ const ProductCard = () => {
                 <a className="pagination-previous">Previous</a>
                 <a className="pagination-next">Next</a>
                 <ul className="pagination-list">
-                  {product.map((val, idx) => (
+
+
+
+                  {pagination.map((val, idx) => (
                     <li key={idx}>
                       <a
                         className="pagination-link"
                         onClick={() => {
-                          console.log("idx", idx);
+                          console.log("idx", idx + 1);
                         }}
                       >
                         {idx + 1}
                       </a>
                     </li>
                   ))}
+
+
+
+
+
+
                   {/* <li>
                     <a className="pagination-link">1</a>
                   </li>
@@ -279,6 +298,8 @@ const ProductCard = () => {
                   <li>
                     <a className="pagination-link">5</a>
                   </li> */}
+
+
                 </ul>
               </nav>
             </>
