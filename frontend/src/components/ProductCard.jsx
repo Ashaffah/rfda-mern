@@ -260,7 +260,7 @@ const ProductCard = () => {
                   <a
                     className="pagination-previous"
                     onClick={() => {
-                      console.log("okk");
+                      // console.log("okk");
                       getProduct(
                         dataFilter.category.id,
                         dataFilter.delivery.id,
@@ -278,7 +278,7 @@ const ProductCard = () => {
                   <a
                     className="pagination-next"
                     onClick={() => {
-                      console.log("okk");
+                      // console.log("okk");
                       getProduct(
                         dataFilter.category.id,
                         dataFilter.delivery.id,
