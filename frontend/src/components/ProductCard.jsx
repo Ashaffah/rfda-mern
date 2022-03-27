@@ -257,8 +257,42 @@ const ProductCard = () => {
                   role="navigation"
                   aria-label="pagination"
                 >
-                  <a className="pagination-previous">Previous</a>
-                  <a className="pagination-next">Next</a>
+                  <a
+                    className="pagination-previous"
+                    onClick={() => {
+                      console.log("okk");
+                      getProduct(
+                        dataFilter.category.id,
+                        dataFilter.delivery.id,
+                        dataFilter.page - 1
+                      );
+                      setDataFilter((prevState) => ({
+                        ...prevState,
+                        page: dataFilter.page - 1,
+                      }));
+                    }}
+                  >
+                    Previous
+                  </a>
+
+                  <a
+                    className="pagination-next"
+                    onClick={() => {
+                      console.log("okk");
+                      getProduct(
+                        dataFilter.category.id,
+                        dataFilter.delivery.id,
+                        dataFilter.page + 1
+                      );
+                      setDataFilter((prevState) => ({
+                        ...prevState,
+                        page: dataFilter.page + 1,
+                      }));
+                    }}
+                  >
+                    Next
+                  </a>
+
                   <ul className="pagination-list">
                     {/* {console.log("dataFilter", dataFilter)} */}
                     {pagination.map((val, idx) => (
