@@ -5,18 +5,21 @@ import { useNavigate, useParams } from "react-router-dom"; // Use useNavigate in
 const EditProduct = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [dataProduct, setProduct] = useState({});
+  const [image, setImage] = useState("");
+  const [dataProduct, setProduct] = useState({
+    title: "",
+    code: "",
+    price: 0,
+    selling_price: 0,
+    image: "",
+    category_id: 0,
+    delivery_id: 0,
+  });
   const history = useNavigate();
   const { id } = useParams();
 
   const updateProduct = async (e) => {
     e.preventDefault();
-
-    console.log(`http://localhost:5000/products/${id}`);
-    console.log({
-      title: title,
-      price: price,
-    });
     await axios.patch(`http://localhost:5000/products/${id}`, {
       title: title,
       price: price,
@@ -28,6 +31,12 @@ const EditProduct = () => {
     getProductById();
   }, []);
 
+  const uploadImage = (e) => {
+    const image = e.target.files[0];
+    console.log("path", image);
+    setImage(image);
+  };
+
   const getProductById = async () => {
     const response = await axios.get(`http://localhost:5000/products/${id}`);
     setTitle(response.data.data);
@@ -36,7 +45,6 @@ const EditProduct = () => {
   };
   return (
     <div>
-      {console.log("dataProduct", dataProduct)}
       <form onSubmit={updateProduct}>
         <div className="field">
           <label className="label">Title</label>
@@ -72,6 +80,15 @@ const EditProduct = () => {
             onChange={(e) => {
               setTitle(e.target.value);
             }}
+          />
+        </div>
+
+        <div className="field">
+          <label className="label">Image</label>
+          <input
+            className="input"
+            type="file"
+            onChange={(e) => uploadImage(e)}
           />
         </div>
 
