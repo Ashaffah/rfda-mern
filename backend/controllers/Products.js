@@ -1,6 +1,6 @@
 import Product from "../models/productModel.js";
 import Category from "../models/categoryModel.js";
-import Delivery from "../models/categoryModel.js";
+import Delivery from "../models/deliveryModel.js";
 import { Op } from "sequelize";
 
 export const getAllProducts = async (req, res) => {
@@ -15,12 +15,12 @@ export const getAllProducts = async (req, res) => {
     query.where = {};
   } else {
     query.where = [
-      category != undefined && { category_id: category },
+      category != undefined && { category_id: JSON.parse(category) },
       delivery != undefined && { delivery_id: delivery },
       search != undefined && { title: { [Op.like]: `%${search}%` } },
     ];
   }
-  query.include = [{ model: Category }];
+  query.include = [{ model: Category }, { model: Delivery }];
   query.attributes = { exclude: ["description"] };
   query.offset = (parseInt(currentPage) - 1) * parseInt(perPage);
   query.limit = parseInt(perPage);
@@ -59,6 +59,7 @@ export const getProductById = async (req, res) => {
 export const getProductByName = async (req, res) => {
   let query = {};
   query.where = { code: req.params.name }
+  query.include = [{ model: Category }, { model: Delivery }];
 
   Product.findAll(query)
     .then((result) => {
