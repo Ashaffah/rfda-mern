@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom"; // Use useNavigate in
 const EditProduct = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [dataProduct, setProduct] = useState({});
   const history = useNavigate();
   const { id } = useParams();
 
@@ -29,11 +30,13 @@ const EditProduct = () => {
 
   const getProductById = async () => {
     const response = await axios.get(`http://localhost:5000/products/${id}`);
-    setTitle(response.data.title);
-    setPrice(response.data.price);
+    setTitle(response.data.data);
+    setPrice(response.data.data);
+    setProduct(response.data.data);
   };
   return (
     <div>
+      {console.log("dataProduct", dataProduct)}
       <form onSubmit={updateProduct}>
         <div className="field">
           <label className="label">Title</label>
@@ -41,7 +44,7 @@ const EditProduct = () => {
             className="input"
             type="text"
             placeholder="Title"
-            value={title}
+            value={dataProduct.title}
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -54,8 +57,21 @@ const EditProduct = () => {
             className="input"
             type="text"
             placeholder="Price"
-            value={price}
+            value={dataProduct.price}
             onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+
+        <div className="field">
+          <label className="label">Selling Price</label>
+          <input
+            className="input"
+            type="text"
+            placeholder="Title"
+            value={dataProduct.selling_price}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
           />
         </div>
 
