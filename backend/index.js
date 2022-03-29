@@ -5,6 +5,7 @@ import categoryRoute from "./routes/category.js";
 import deliveryRoute from "./routes/delivery.js";
 import cors from "cors";
 import multer from "multer";
+import jwt from "jsonwebtoken";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -45,4 +46,45 @@ app.use(express.json());
 app.use("/products", productRoute);
 app.use("/category", categoryRoute);
 app.use("/delivery", deliveryRoute);
+
+app.get("/getData", verifyUser, (req, res) => {
+  res.json({
+    message: "okkkkkkkk",
+    data: req.body
+  })
+})
+
+app.post("/login", (req, res) => {
+  const user = {
+    id: 1,
+    username: "danang",
+    email: "danang@gmail.com",
+  }
+  jwt.sign(user, 'secret', { expiresIn: '10000' }, (err, token) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(304);
+      return
+    }
+    const Token = token;
+    res.json({
+      user: user,
+      token: token
+    })
+  })
+});
+
+function verifyUser(req, res, next) {
+  const bearer = req.headers.bearer;
+  jwt.verify(bearer, 'secret', (err, data) => {
+    if (err) {
+      console.log(err.message);
+      res.json(err);
+      return
+    }
+    req.body = data;
+    next()
+  })
+}
+
 app.listen(5000, () => console.log("server running at port 5000"));
