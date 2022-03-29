@@ -34,3 +34,49 @@ export const getCategoryById = async (req, res) => {
     res.json({ message: error.message });
   }
 };
+
+export const createCategory = async (req, res) => {
+  const payload = {
+    name: req.body.name
+  };
+  Category.create(payload)
+    .then((result) => {
+      res.status(200).json({
+        message: "Category Created",
+      });
+    })
+    .catch((error) => {
+      res.json({ message: error.message });
+    });
+};
+
+export const updateCategory = async (req, res) => {
+  const payload = {
+    name: req.body.name
+  };
+  Category.update(payload, {
+    where: {
+      id: req.params.id,
+    }
+  })
+    .then((result) => {
+      res.status(200).json({
+        message: "Category Updated",
+      });
+    })
+    .catch((error) => {
+      res.json({ message: error.message });
+    });
+};
+
+export const deleteCategory = async (req, res) => {
+  Category.destroy({ where: { id: req.params.id } })
+    .then((result) => {
+      res.status(200).json({
+        message: "Category Deleted",
+      });
+    })
+    .catch((error) => {
+      res.json({ message: error.message });
+    });
+};

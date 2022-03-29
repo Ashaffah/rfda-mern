@@ -10,6 +10,7 @@ const Delivery = db.define(
   },
   {
     freezeTableName: true,
+    timestamps: false
   }
 );
 export default Delivery;
