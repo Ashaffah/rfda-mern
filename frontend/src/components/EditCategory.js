@@ -7,11 +7,12 @@ const EditCategory = () => {
   const history = useNavigate();
   const { id } = useParams();
 
-  const updateCategory = async (e) => {
+  const updateData = async (e) => {
     e.preventDefault();
-
-    await axios.patch(`http://localhost:5000/category/${id}`);
-    history("/"); // history.push("/"); no longer use push
+    await axios.patch(`http://localhost:5000/category/${id}`, {
+      name: dataCategory.name,
+    });
+    history("/manage/category"); // history.push("/"); no longer use push
   };
 
   useEffect(() => {
@@ -19,12 +20,12 @@ const EditCategory = () => {
   }, []);
 
   const getCategoryById = async () => {
-    const response = await axios.get(`http://localhost:5000/category/${id}`);
+    const response = await axios.get("http://localhost:5000/category/" + id);
     setCategory(response.data);
   };
   return (
     <div>
-      <form onSubmit={updateCategory}>
+      <form onSubmit={updateData}>
         <div className="field">
           <label className="label">Nama</label>
           <input
@@ -33,11 +34,13 @@ const EditCategory = () => {
             placeholder="Title"
             value={dataCategory.name}
             onChange={(e) => {
-              setCategory(e.target.value);
+              setCategory((prevState) => ({
+                ...prevState,
+                name: e.target.value,
+              }));
             }}
           />
         </div>
-
         <div className="field"></div>
         <button className="button is-primary">Update</button>
       </form>
