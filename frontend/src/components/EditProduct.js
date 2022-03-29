@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom"; // Use useNavigate in
 const EditProduct = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+  // const [image, setImage] = useState("");
   const [dataProduct, setProduct] = useState({
     title: "",
     code: "",
@@ -28,21 +28,15 @@ const EditProduct = () => {
   };
 
   useEffect(() => {
+    const getProductById = async () => {
+      const response = await axios.get("http://localhost:5000/products/" + id);
+      setTitle(response.data.data);
+      setPrice(response.data.data);
+      setProduct(response.data.data);
+    };
     getProductById();
-  }, []);
+  }, [id]);
 
-  const uploadImage = (e) => {
-    const image = e.target.files[0];
-    console.log("path", image);
-    setImage(image);
-  };
-
-  const getProductById = async () => {
-    const response = await axios.get(`http://localhost:5000/products/${id}`);
-    setTitle(response.data.data);
-    setPrice(response.data.data);
-    setProduct(response.data.data);
-  };
   return (
     <div>
       <form onSubmit={updateProduct}>
@@ -80,15 +74,6 @@ const EditProduct = () => {
             onChange={(e) => {
               setTitle(e.target.value);
             }}
-          />
-        </div>
-
-        <div className="field">
-          <label className="label">Image</label>
-          <input
-            className="input"
-            type="file"
-            onChange={(e) => uploadImage(e)}
           />
         </div>
 

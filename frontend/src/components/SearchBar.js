@@ -33,7 +33,7 @@ const SearchBar = () => {
           }}
         />
       </p>
-      {keySearch != "" && (
+      {keySearch !== "" && (
         <div className="box" style={{ position: "absolute", width: "47%" }}>
           {product.map((val, idx) => (
             <a href={`/product/detail/${val.code}`} key={idx}>
