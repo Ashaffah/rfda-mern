@@ -16,13 +16,13 @@ const EditCategory = () => {
   };
 
   useEffect(() => {
+    const getCategoryById = async () => {
+      const response = await axios.get("http://localhost:5000/category/" + id);
+      setCategory(response.data);
+    };
     getCategoryById();
-  }, []);
+  }, [id]);
 
-  const getCategoryById = async () => {
-    const response = await axios.get("http://localhost:5000/category/" + id);
-    setCategory(response.data);
-  };
   return (
     <div>
       <form onSubmit={updateData}>
