@@ -45,7 +45,10 @@ const EditProduct = () => {
             placeholder="Title"
             value={dataProduct.title}
             onChange={(e) => {
-              setTitle(e.target.value);
+              setProduct((prevState) => ({
+                ...prevState,
+                title: e.target.value,
+              }));
             }}
           />
         </div>
@@ -57,7 +60,12 @@ const EditProduct = () => {
             type="text"
             placeholder="Price"
             value={dataProduct.price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => {
+              setProduct((prevState) => ({
+                ...prevState,
+                price: e.target.value,
+              }));
+            }}
           />
         </div>
 
@@ -69,7 +77,10 @@ const EditProduct = () => {
             placeholder="Title"
             value={dataProduct.selling_price}
             onChange={(e) => {
-              setTitle(e.target.value);
+              setProduct((prevState) => ({
+                ...prevState,
+                selling_price: e.target.value,
+              }));
             }}
           />
         </div>
