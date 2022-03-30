@@ -80,12 +80,12 @@ const ProductCard = () => {
           </div>
           <div className="card p-4">
             <div className="has-text-weight-bold mb-2">Kategori</div>
-            <a>
+            <href>
               {category.map((val, idx) => (
                 <div className="has-text-black-bis" key={idx}>
                   <span
                     className={
-                      dataFilter.category.name == val.name
+                      dataFilter.category.name === val.name
                         ? "has-text-weight-bold"
                         : null
                     }
@@ -101,14 +101,14 @@ const ProductCard = () => {
                   </span>
                 </div>
               ))}
-            </a>
+            </href>
             <div className="has-text-weight-bold my-2">Pengiriman</div>
-            <a>
+            <href>
               {delivery.map((val, idx) => (
                 <div className="has-text-black-bis" key={idx}>
                   <div
                     className={
-                      dataFilter.delivery.name == val.name
+                      dataFilter.delivery.name === val.name
                         ? "has-text-weight-bold"
                         : null
                     }
@@ -124,7 +124,7 @@ const ProductCard = () => {
                   </div>
                 </div>
               ))}
-            </a>
+            </href>
             <div></div>
             <button
               className="button has-text-danger-dark mt-4"
@@ -161,7 +161,7 @@ const ProductCard = () => {
                       <div className="card" style={{ height: "100%" }}>
                         <div className="card-image">
                           <figure className="image is-4by4">
-                            <img
+                            <image
                               // src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/7/28/16445adf-dfb5-47d9-a43e-d896937d6fc6.jpg.webp?ect=4g"
                               src={"http://localhost:5000/" + val.image}
                               alt="Placeholder image"
@@ -257,7 +257,7 @@ const ProductCard = () => {
                   role="navigation"
                   aria-label="pagination"
                 >
-                  <a
+                  <href
                     className="pagination-previous"
                     onClick={() => {
                       // console.log("okk");
@@ -273,9 +273,9 @@ const ProductCard = () => {
                     }}
                   >
                     Previous
-                  </a>
+                  </href>
 
-                  <a
+                  <href
                     className="pagination-next"
                     onClick={() => {
                       // console.log("okk");
@@ -291,13 +291,13 @@ const ProductCard = () => {
                     }}
                   >
                     Next
-                  </a>
+                  </href>
 
                   <ul className="pagination-list">
                     {/* {console.log("dataFilter", dataFilter)} */}
                     {pagination.map((val, idx) => (
                       <li key={idx}>
-                        <a
+                        <href
                           style={
                             dataFilter.page === idx + 1
                               ? {
@@ -325,7 +325,7 @@ const ProductCard = () => {
                           }}
                         >
                           {idx + 1}
-                        </a>
+                        </href>
                       </li>
                     ))}
                   </ul>
