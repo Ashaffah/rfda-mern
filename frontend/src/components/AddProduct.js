@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"; // Use useNavigate instead of us
 import { Editor } from "@tinymce/tinymce-react";
 
 const AddProduct = () => {
+  const [selectCategory, setSelectCategory] = useState([]);
   const [selectFile, setFile] = useState();
   const [previewImage, setPreview] = useState();
   const [dataProduct, setProduct] = useState({
@@ -15,8 +16,11 @@ const AddProduct = () => {
     category_id: null,
     delivery_id: null,
   });
+
   const history = useNavigate();
   useEffect(() => {
+    getCategoryList();
+
     if (!selectFile) {
       setPreview(undefined);
       return;
@@ -25,6 +29,18 @@ const AddProduct = () => {
     setPreview(objectURL);
     return () => URL.revokeObjectURL(objectURL);
   }, [selectFile]);
+
+  const getCategoryList = async () => {
+    axios
+      .get("http://localhost:5000/category")
+      .then((res) => {
+        setSelectCategory(res.data.data);
+        console.log("OKKKKKKKKKKK", res.data.data);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
 
   const uploadImage = (e) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -107,6 +123,49 @@ const AddProduct = () => {
             }
           />
         </div>
+
+        <div>
+          {/* <select>
+            Pilih Category
+            {selectCategory.map(({ value, label }, index) => (
+              <option value={category_id}>{nam}</option>
+            ))}
+          </select> */}
+        </div>
+        {/* <div>
+          <div className="dropdown is-active">
+            <div className="dropdown-trigger">
+              <button
+                className="button"
+                aria-haspopup="true"
+                aria-controls="dropdown-menu"
+              >
+                <span>---Pilih Category---</span>
+                <span className="icon is-small">
+                  <i className="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div className="dropdown-menu" id="dropdown-menu" role="menu">
+              <div className="dropdown-content">
+                <a href="#" className="dropdown-item">
+                  
+                </a>
+                 <a class="dropdown-item">Other dropdown item</a>
+                <a href="#" class="dropdown-item is-active">
+                  Active dropdown item
+                </a>
+                <a href="#" class="dropdown-item">
+                  Other dropdown item
+                </a>
+                <hr class="dropdown-divider" />
+                <a href="#" class="dropdown-item">
+                  With a divider
+                </a> *
+              </div>
+            </div>
+          </div>
+        </div> */}
 
         <div>
           <label className="label">Description</label>

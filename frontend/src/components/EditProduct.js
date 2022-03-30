@@ -12,7 +12,7 @@ const EditProduct = () => {
     category_id: 0,
     delivery_id: 0,
   });
-
+  console.log("dataProduct", dataProduct);
   const history = useNavigate();
   const { id } = useParams();
 
@@ -22,6 +22,7 @@ const EditProduct = () => {
       title: dataProduct.title,
       price: dataProduct.price,
       selling_price: dataProduct.selling_price,
+      image: dataProduct.image,
     });
     history("/manage/product"); // history.push("/"); no longer use push
   };
