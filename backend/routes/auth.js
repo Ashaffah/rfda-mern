@@ -1,19 +1,11 @@
 import express from "express";
-import {
-  getAllCategory,
-  getCategoryById,
-  createCategory,
-  updateCategory,
-  deleteCategory
-} from "../controllers/Category.js";
-import multer from "multer";
-const upload = multer({ dest: "uploads/" });
+import { Register, Login, Logout } from "../controllers/Auth.js";
+import { refreshToken } from "../controllers/RefreshToken.js";
 
 const router = express.Router();
 
-router.get("/", getAllCategory);
-router.get("/:id", getCategoryById);
-router.post("/", createCategory);
-router.patch("/:id", updateCategory);
-router.delete("/:id", deleteCategory);
+router.post('/register', Register);
+router.post('/login', Login);
+router.get('/token', refreshToken);
+router.delete('/logout', Logout);
 export default router;
