@@ -12,16 +12,16 @@ const EditProduct = () => {
     category_id: 0,
     delivery_id: 0,
   });
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
+
   const history = useNavigate();
   const { id } = useParams();
 
   const updateProduct = async (e) => {
     e.preventDefault();
     await axios.patch(`http://localhost:5000/products/${id}`, {
-      title: title,
-      price: price,
+      title: dataProduct.title,
+      price: dataProduct.price,
+      selling_price: dataProduct.selling_price,
     });
     history("/manage/product"); // history.push("/"); no longer use push
   };
