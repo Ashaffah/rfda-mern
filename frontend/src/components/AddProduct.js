@@ -5,6 +5,8 @@ import { Editor } from "@tinymce/tinymce-react";
 
 const AddProduct = () => {
   const [selectCategory, setSelectCategory] = useState([]);
+  const [selectDelivery, setSelectDelivery] = useState([]);
+
   const [selectFile, setFile] = useState();
   const [previewImage, setPreview] = useState();
   const [dataProduct, setProduct] = useState({
@@ -20,6 +22,7 @@ const AddProduct = () => {
   const history = useNavigate();
   useEffect(() => {
     getCategoryList();
+    getDeliveryList();
 
     if (!selectFile) {
       setPreview(undefined);
@@ -30,12 +33,23 @@ const AddProduct = () => {
     return () => URL.revokeObjectURL(objectURL);
   }, [selectFile]);
 
-  const getCategoryList = async () => {
+  const getCategoryList = async (category) => {
     axios
       .get("http://localhost:5000/category")
       .then((res) => {
         setSelectCategory(res.data.data);
         console.log("OKKKKKKKKKKK", res.data.data);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  const getDeliveryList = async (delivery) => {
+    axios
+      .get("http://localhost:5000/delivery")
+      .then((res) => {
+        setSelectDelivery(res.data.data);
       })
       .catch((error) => {
         alert(error);
@@ -124,48 +138,51 @@ const AddProduct = () => {
           />
         </div>
 
-        <div>
-          {/* <select>
-            Pilih Category
-            {selectCategory.map(({ value, label }, index) => (
-              <option value={category_id}>{nam}</option>
-            ))}
-          </select> */}
-        </div>
-        {/* <div>
-          <div className="dropdown is-active">
-            <div className="dropdown-trigger">
-              <button
-                className="button"
-                aria-haspopup="true"
-                aria-controls="dropdown-menu"
-              >
-                <span>---Pilih Category---</span>
-                <span className="icon is-small">
-                  <i className="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-              </button>
-            </div>
-            <div className="dropdown-menu" id="dropdown-menu" role="menu">
-              <div className="dropdown-content">
-                <a href="#" className="dropdown-item">
-                  
-                </a>
-                 <a class="dropdown-item">Other dropdown item</a>
-                <a href="#" class="dropdown-item is-active">
-                  Active dropdown item
-                </a>
-                <a href="#" class="dropdown-item">
-                  Other dropdown item
-                </a>
-                <hr class="dropdown-divider" />
-                <a href="#" class="dropdown-item">
-                  With a divider
-                </a> *
-              </div>
-            </div>
+        <div className="field">
+          <label className="label">Pilih Category</label>
+          <div class="select">
+            <select>
+              {selectCategory.map((val, idx) => (
+                <option
+                  key={idx}
+                  value={val.category_id}
+                  onClick={() => {
+                    getCategoryList(val.name, selectCategory.dataProduct.id);
+                    setSelectCategory((prevState) => ({
+                      ...prevState,
+                      category_id: val,
+                    }));
+                  }}
+                >
+                  {val.name}
+                </option>
+              ))}
+            </select>
           </div>
-        </div> */}
+        </div>
+
+        <div className="field">
+          <label className="label">Pilih Delivery</label>
+          <div class="select">
+            <select>
+              {selectDelivery.map((val, idx) => (
+                <option
+                  key={idx}
+                  value={val.category_id}
+                  onClick={() => {
+                    getDeliveryList(val.name, selectDelivery.dataProduct.id);
+                    setSelectDelivery((prevState) => ({
+                      ...prevState,
+                      delivery_id: val,
+                    }));
+                  }}
+                >
+                  {val.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
         <div>
           <label className="label">Description</label>
