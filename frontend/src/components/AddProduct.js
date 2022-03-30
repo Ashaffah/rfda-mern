@@ -62,7 +62,6 @@ const AddProduct = () => {
   };
   return (
     <div>
-      {console.log("data", dataProduct)}
       <form onSubmit={saveProduct}>
         <div className="field">
           <label className="label">Title</label>
@@ -122,7 +121,6 @@ const AddProduct = () => {
             }
           ></Editor>
         </div>
-        {console.log("dataProduct", dataProduct.image)}
 
         <div className="file has-name is-boxed">
           <label className="file-label">
