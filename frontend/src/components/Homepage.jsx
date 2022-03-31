@@ -10,24 +10,27 @@ const Homepage = () => {
   }, []);
 
   const getProduct = async () => {
-    axios.get("http://localhost:5000/products?page=1&perPage=18").then((res) => {
-      setProduct(res.data.data);
-    }).catch((error) => {
-      alert(error)
-    });
+    axios
+      .get("http://localhost:5000/products?page=1&perPage=18")
+      .then((res) => {
+        setProduct(res.data.data);
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   return (
     <div className="mb-6">
-      <div className="has-text-centered is-size-3 has-text-weight-bold my-3">Product List</div>
+      <div className="has-text-centered is-size-3 has-text-weight-bold my-3">
+        Product List
+      </div>
       <div className="columns">
         <div className="column is-12">
           <div className="columns is-multiline">
             {product.map((val, idx) => (
               <div className="column is-2" key={idx}>
-                <Link
-                  to={`/product/detail/${val.code}`}
-                >
+                <Link to={`/product/detail/${val.code}`}>
                   <div className="card">
                     <div className="card-image">
                       <figure className="image is-4by4">
@@ -42,7 +45,6 @@ const Homepage = () => {
                       <div className="content">
                         <div className="has-text-weight-bold">{val.title}</div>
                         <div>Rp. {val.price}</div>
-
                       </div>
                     </div>
                   </div>
@@ -52,7 +54,9 @@ const Homepage = () => {
           </div>
         </div>
       </div>
-      <div className="has-text-centered is-size-3 has-text-weight-bold my-3">Category</div>
+      <div className="has-text-centered is-size-3 has-text-weight-bold my-3">
+        Category
+      </div>
       {/* </Container> */}
     </div>
   );

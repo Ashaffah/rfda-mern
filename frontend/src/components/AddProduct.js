@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory sudah tidak digunakan di react v6
 import { Editor } from "@tinymce/tinymce-react";
@@ -6,7 +6,6 @@ import { Editor } from "@tinymce/tinymce-react";
 const AddProduct = () => {
   const [selectCategory, setSelectCategory] = useState([]);
   const [selectDelivery, setSelectDelivery] = useState([]);
-
   const [selectFile, setFile] = useState();
   const [previewImage, setPreview] = useState();
   const [dataProduct, setProduct] = useState({
@@ -33,19 +32,19 @@ const AddProduct = () => {
     return () => URL.revokeObjectURL(objectURL);
   }, [selectFile]);
 
-  const getCategoryList = async (category) => {
+  const getCategoryList = async () => {
     axios
       .get("http://localhost:5000/category")
       .then((res) => {
         setSelectCategory(res.data.data);
-        console.log("OKKKKKKKKKKK", res.data.data);
+        // console.log("OKKKKKKKKKKK", res.data.data);
       })
       .catch((error) => {
         alert(error);
       });
   };
 
-  const getDeliveryList = async (delivery) => {
+  const getDeliveryList = async () => {
     axios
       .get("http://localhost:5000/delivery")
       .then((res) => {
@@ -70,25 +69,56 @@ const AddProduct = () => {
     }));
   };
 
+  const editorRef = useRef(null);
+
+  const log = () => {
+    if (editorRef.current) {
+      // console.log(editorRef.current.getContent());
+      setProduct((prevState) => ({
+        ...prevState,
+        description: editorRef.current.getContent(),
+      }));
+    }
+  };
+
   const saveProduct = async (e) => {
     e.preventDefault();
 
-    const data = new FormData();
-    data.append("title", dataProduct.title);
-    data.append("code", dataProduct.code);
-    data.append("price", dataProduct.price);
-    data.append("selling_price", dataProduct.selling_price);
-    data.append("description", dataProduct.description);
-    data.append("category", dataProduct.category);
-    data.append("delivery", dataProduct.delivery);
-    data.append("image", dataProduct.image);
+    console.log("DATAPRODUCT", dataProduct);
+    if (
+      dataProduct.title !== "" &&
+      dataProduct.price !== 0 &&
+      dataProduct.selling_price !== 0 &&
+      dataProduct.description !== "" &&
+      dataProduct.category !== null &&
+      dataProduct.delivery !== null &&
+      dataProduct.image !== null
+    ) {
+      console.log("OKEEE", dataProduct);
 
-    await axios.post("http://localhost:5000/products", data, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
-    history("/manage/product");
+      var str = dataProduct.title;
+
+      var code = str.replace(/\s+/g, "-");
+
+      const data = new FormData();
+      data.append("title", dataProduct.title);
+      data.append("code", code);
+      data.append("price", dataProduct.price);
+      data.append("selling_price", dataProduct.selling_price);
+      data.append("description", dataProduct.description);
+      data.append("category", dataProduct.category);
+      data.append("delivery", dataProduct.delivery);
+      data.append("image", dataProduct.image);
+
+      await axios.post("http://localhost:5000/products", data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+      history("/manage/product");
+
+      console.log("HALOOOOOO", code);
+    }
   };
   return (
     <div>
@@ -140,20 +170,18 @@ const AddProduct = () => {
 
         <div className="field">
           <label className="label">Pilih Category</label>
-          <div class="select">
-            <select>
+          <div className="select">
+            <select
+              onChange={(e) => {
+                setProduct((prevState) => ({
+                  ...prevState,
+                  category_id: e.target.value,
+                }));
+              }}
+              // console.log("SSSSSSSSSSSSSSSS", e.target.value)
+            >
               {selectCategory.map((val, idx) => (
-                <option
-                  key={idx}
-                  value={val.category_id}
-                  onClick={() => {
-                    getCategoryList(val.name, selectCategory.dataProduct.id);
-                    setSelectCategory((prevState) => ({
-                      ...prevState,
-                      category_id: val,
-                    }));
-                  }}
-                >
+                <option key={idx} value={val.id}>
                   {val.name}
                 </option>
               ))}
@@ -163,20 +191,18 @@ const AddProduct = () => {
 
         <div className="field">
           <label className="label">Pilih Delivery</label>
-          <div class="select">
-            <select>
+          <div className="select">
+            <select
+              onChange={(e) => {
+                setProduct((prevState) => ({
+                  ...prevState,
+                  delivery_id: e.target.value,
+                }));
+              }}
+              // console.log("SSSSSSSSSSSSSSSS", e.target.value)
+            >
               {selectDelivery.map((val, idx) => (
-                <option
-                  key={idx}
-                  value={val.category_id}
-                  onClick={() => {
-                    getDeliveryList(val.name, selectDelivery.dataProduct.id);
-                    setSelectDelivery((prevState) => ({
-                      ...prevState,
-                      delivery_id: val,
-                    }));
-                  }}
-                >
+                <option key={idx} value={val.id}>
                   {val.name}
                 </option>
               ))}
@@ -188,6 +214,7 @@ const AddProduct = () => {
           <label className="label">Description</label>
           <Editor
             apiKey="mbl79zu3ed3clcjqygltjkrjj5hm3kep580x4hrx7e50e1b8"
+            onInit={(evt, editor) => (editorRef.current = editor)}
             init={{}}
             onChange={(e) =>
               setProduct((prevState) => ({
@@ -195,7 +222,7 @@ const AddProduct = () => {
                 description: e.target.value,
               }))
             }
-          ></Editor>
+          />
         </div>
 
         <div className="file has-name is-boxed">
@@ -224,7 +251,9 @@ const AddProduct = () => {
           </label>
         </div>
         <div className="field"></div>
-        <button className="button is-primary">Save</button>
+        <button className="button is-primary" onClick={log}>
+          Save
+        </button>
       </form>
     </div>
   );
