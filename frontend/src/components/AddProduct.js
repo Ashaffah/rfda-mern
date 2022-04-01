@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom"; // Use useNavigate instead of us
 import { Editor } from "@tinymce/tinymce-react";
 
 const AddProduct = () => {
-  const [selectCategory, setSelectCategory] = useState([]);
-  const [selectDelivery, setSelectDelivery] = useState([]);
+  const [listCategory, setDataCategory] = useState([]);
+  const [listDelivery, setDataDelivery] = useState([]);
   const [selectFile, setFile] = useState();
   const [previewImage, setPreview] = useState();
   const [dataProduct, setProduct] = useState({
@@ -14,14 +14,17 @@ const AddProduct = () => {
     price: 0,
     selling_price: 0,
     image: null,
-    category_id: null,
-    delivery_id: null,
+    category_id: 0,
+    delivery_id: 0,
   });
 
   const history = useNavigate();
+
   useEffect(() => {
     getCategoryList();
     getDeliveryList();
+
+    console.log("render")
 
     if (!selectFile) {
       setPreview(undefined);
@@ -36,8 +39,7 @@ const AddProduct = () => {
     axios
       .get("http://localhost:5000/category")
       .then((res) => {
-        setSelectCategory(res.data.data);
-        // console.log("OKKKKKKKKKKK", res.data.data);
+        setDataCategory(res.data.data);
       })
       .catch((error) => {
         alert(error);
@@ -48,7 +50,7 @@ const AddProduct = () => {
     axios
       .get("http://localhost:5000/delivery")
       .then((res) => {
-        setSelectDelivery(res.data.data);
+        setDataDelivery(res.data.data);
       })
       .catch((error) => {
         alert(error);
@@ -71,33 +73,20 @@ const AddProduct = () => {
 
   const editorRef = useRef(null);
 
-  const log = () => {
-    if (editorRef.current) {
-      // console.log(editorRef.current.getContent());
-      setProduct((prevState) => ({
-        ...prevState,
-        description: editorRef.current.getContent(),
-      }));
-    }
-  };
-
   const saveProduct = async (e) => {
     e.preventDefault();
-
-    console.log("DATAPRODUCT", dataProduct);
     if (
       dataProduct.title !== "" &&
       dataProduct.price !== 0 &&
       dataProduct.selling_price !== 0 &&
       dataProduct.description !== "" &&
-      dataProduct.category !== null &&
-      dataProduct.delivery !== null &&
+      dataProduct.category_id !== 0 &&
+      dataProduct.delivery_id !== 0 &&
       dataProduct.image !== null
     ) {
-      console.log("OKEEE", dataProduct);
+      console.log("full field", true);
 
       var str = dataProduct.title;
-
       var code = str.replace(/\s+/g, "-");
 
       const data = new FormData();
@@ -116,12 +105,11 @@ const AddProduct = () => {
         },
       });
       history("/manage/product");
-
-      console.log("HALOOOOOO", code);
     }
   };
   return (
     <div>
+      {console.log(dataProduct)}
       <form onSubmit={saveProduct}>
         <div className="field">
           <label className="label">Title</label>
@@ -129,11 +117,12 @@ const AddProduct = () => {
             className="input"
             type="text"
             placeholder="Title"
-            onChange={(e) =>
+            onChange={(e) => {
               setProduct((prevState) => ({
                 ...prevState,
                 title: e.target.value,
-              }))
+              }));
+            }
             }
           />
         </div>
@@ -144,11 +133,12 @@ const AddProduct = () => {
             className="input"
             type="text"
             placeholder="Price"
-            onChange={(e) =>
+            onChange={(e) => {
               setProduct((prevState) => ({
                 ...prevState,
                 price: e.target.value,
-              }))
+              }));
+            }
             }
           />
         </div>
@@ -159,54 +149,62 @@ const AddProduct = () => {
             className="input"
             type="text"
             placeholder="Price"
-            onChange={(e) =>
+            onChange={(e) => {
               setProduct((prevState) => ({
                 ...prevState,
                 selling_price: e.target.value,
-              }))
+              }));
+            }
             }
           />
         </div>
 
-        <div className="field">
-          <label className="label">Pilih Category</label>
-          <div className="select">
-            <select
-              onChange={(e) => {
-                setProduct((prevState) => ({
-                  ...prevState,
-                  category_id: e.target.value,
-                }));
-              }}
-              // console.log("SSSSSSSSSSSSSSSS", e.target.value)
-            >
-              {selectCategory.map((val, idx) => (
-                <option key={idx} value={val.id}>
-                  {val.name}
-                </option>
-              ))}
-            </select>
+        <div className="columns">
+          <div className="column is-6">
+            <div className="field">
+              <label className="label">Pilih Category</label>
+              <div style={{ display: "block" }} className="select">
+                <select
+                  style={{ width: "100%" }}
+                  onChange={(e) => {
+                    setProduct((prevState) => ({
+                      ...prevState,
+                      category_id: e.target.value,
+                    }));
+                  }}
+                >
+                  <option value={0}>-- Pilih --</option>
+                  {listCategory.map((val, idx) => (
+                    <option key={idx} value={val.id}>
+                      {val.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="field">
-          <label className="label">Pilih Delivery</label>
-          <div className="select">
-            <select
-              onChange={(e) => {
-                setProduct((prevState) => ({
-                  ...prevState,
-                  delivery_id: e.target.value,
-                }));
-              }}
-              // console.log("SSSSSSSSSSSSSSSS", e.target.value)
-            >
-              {selectDelivery.map((val, idx) => (
-                <option key={idx} value={val.id}>
-                  {val.name}
-                </option>
-              ))}
-            </select>
+          <div className="column is-6">
+            <div className="field">
+              <label className="label">Pilih Delivery</label>
+              <div style={{ display: "block" }} className="select">
+                <select
+                  style={{ width: "100%" }}
+                  onChange={(e) => {
+                    setProduct((prevState) => ({
+                      ...prevState,
+                      delivery_id: e.target.value,
+                    }));
+                  }}
+                >
+                  <option value={0}>-- Pilih --</option>
+                  {listDelivery.map((val, idx) => (
+                    <option key={idx} value={val.id}>
+                      {val.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -215,17 +213,28 @@ const AddProduct = () => {
           <Editor
             apiKey="mbl79zu3ed3clcjqygltjkrjj5hm3kep580x4hrx7e50e1b8"
             onInit={(evt, editor) => (editorRef.current = editor)}
-            init={{}}
-            onChange={(e) =>
-              setProduct((prevState) => ({
-                ...prevState,
-                description: e.target.value,
-              }))
-            }
+            init={{
+              height: 400,
+              plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+              ],
+              toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ',
+            }}
+            onEditorChange={() => {
+              (editorRef.current) &&
+                setProduct((prevState) => ({
+                  ...prevState,
+                  description: editorRef.current.getContent(),
+                }));
+            }}
           />
         </div>
 
-        <div className="file has-name is-boxed">
+        <div className="file has-name is-boxed my-5">
           <label className="file-label">
             <input
               className="file-input"
@@ -240,20 +249,27 @@ const AddProduct = () => {
               {selectFile ? (
                 <img src={previewImage} alt="" />
               ) : (
-                <span className="file-label">Choose a file…</span>
+                <span className="file-label">Choose a file</span>
               )}
             </span>
-            {dataProduct.image?.name && (
-              <span className="file-name" style={{ textAlign: "center" }}>
-                {dataProduct.image?.name}
-              </span>
-            )}
+            <span className="file-name" style={{ textAlign: "center" }}>
+              {
+                dataProduct.image != null ? dataProduct.image.name : "..."
+              }
+            </span>
           </label>
         </div>
-        <div className="field"></div>
-        <button className="button is-primary" onClick={log}>
-          Save
-        </button>
+
+
+
+        <div className="mb-6" style={{ textAlign: "right" }}>
+          <button className="button is-danger mr-3" onClick={() => history("/manage/product")}>
+            Back
+          </button>
+          <button className="button is-success">
+            Save
+          </button>
+        </div>
       </form>
     </div>
   );
