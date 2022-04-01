@@ -109,7 +109,6 @@ const AddProduct = () => {
   };
   return (
     <div>
-      {console.log(dataProduct)}
       <form onSubmit={saveProduct}>
         <div className="field">
           <label className="label">Title</label>
