@@ -24,7 +24,7 @@ const AddProduct = () => {
     getCategoryList();
     getDeliveryList();
 
-    console.log("render")
+    console.log("render");
 
     if (!selectFile) {
       setPreview(undefined);
@@ -95,8 +95,8 @@ const AddProduct = () => {
       data.append("price", dataProduct.price);
       data.append("selling_price", dataProduct.selling_price);
       data.append("description", dataProduct.description);
-      data.append("category", dataProduct.category);
-      data.append("delivery", dataProduct.delivery);
+      data.append("category", dataProduct.category_id);
+      data.append("delivery", dataProduct.delivery_id);
       data.append("image", dataProduct.image);
 
       await axios.post("http://localhost:5000/products", data, {
@@ -121,8 +121,7 @@ const AddProduct = () => {
                 ...prevState,
                 title: e.target.value,
               }));
-            }
-            }
+            }}
           />
         </div>
 
@@ -130,15 +129,14 @@ const AddProduct = () => {
           <label className="label">Price</label>
           <input
             className="input"
-            type="text"
+            type="number"
             placeholder="Price"
             onChange={(e) => {
               setProduct((prevState) => ({
                 ...prevState,
                 price: e.target.value,
               }));
-            }
-            }
+            }}
           />
         </div>
 
@@ -146,15 +144,14 @@ const AddProduct = () => {
           <label className="label">Selling Price</label>
           <input
             className="input"
-            type="text"
+            type="number"
             placeholder="Price"
             onChange={(e) => {
               setProduct((prevState) => ({
                 ...prevState,
                 selling_price: e.target.value,
               }));
-            }
-            }
+            }}
           />
         </div>
 
@@ -215,16 +212,17 @@ const AddProduct = () => {
             init={{
               height: 400,
               plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table paste code help wordcount",
               ],
-              toolbar: 'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ',
+              toolbar:
+                "undo redo | formatselect | " +
+                "bold italic backcolor | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | ",
             }}
             onEditorChange={() => {
-              (editorRef.current) &&
+              editorRef.current &&
                 setProduct((prevState) => ({
                   ...prevState,
                   description: editorRef.current.getContent(),
@@ -252,22 +250,19 @@ const AddProduct = () => {
               )}
             </span>
             <span className="file-name" style={{ textAlign: "center" }}>
-              {
-                dataProduct.image != null ? dataProduct.image.name : "..."
-              }
+              {dataProduct.image != null ? dataProduct.image.name : "..."}
             </span>
           </label>
         </div>
 
-
-
         <div className="mb-6" style={{ textAlign: "right" }}>
-          <button className="button is-danger mr-3" onClick={() => history("/manage/product")}>
+          <button
+            className="button is-danger mr-3"
+            onClick={() => history("/manage/product")}
+          >
             Back
           </button>
-          <button className="button is-success">
-            Save
-          </button>
+          <button className="button is-success">Save</button>
         </div>
       </form>
     </div>
