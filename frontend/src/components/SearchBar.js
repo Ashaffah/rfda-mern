@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import "../style/Styles.css";
 
 const SearchBar = () => {
   const [keySearch, setKeySearch] = useState("");

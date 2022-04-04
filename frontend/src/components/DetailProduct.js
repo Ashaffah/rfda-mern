@@ -25,7 +25,7 @@ const DetailProduct = () => {
         <div className="column is-3">
           <img
             src={"http://localhost:5000/" + data.image}
-            alt="Placeholder image"
+            alt={data.name}
             style={{ width: "-webkit-fill-available", borderRadius: "10px" }}
           />
           <div
@@ -38,7 +38,7 @@ const DetailProduct = () => {
             {[1, 2, 3].map((val, idx) => (
               <img
                 src={"http://localhost:5000/" + data.image}
-                alt="Placeholder image"
+                alt={data.name + idx}
                 style={{ width: "25%", borderRadius: "10px" }}
               />
             ))}

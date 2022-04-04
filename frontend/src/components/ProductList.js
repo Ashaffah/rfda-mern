@@ -8,17 +8,27 @@ const ProductList = () => {
     perPage: 10,
     page: 1,
   });
+  const [pagination, setPagination] = useState([]);
 
   useEffect(() => {
     getProduct();
   }, []);
 
   const getProduct = async (page = 1, perPage = 10) => {
+    const paramPage = page != 1 ? `&page=${page}` : "";
 
     axios
-      .get(`http://localhost:5000/products?page=${page}&perPage=${perPage}`)
+      .get(`http://localhost:5000/products?${paramPage}&perPage=${perPage}`)
       .then((res) => {
         setProduct(res.data.data);
+
+        const countData = Math.ceil(res.data.total_data / perPage);
+        let dataPagination = [];
+
+        for (let i = 0; i < countData; i++) {
+          dataPagination.push(i);
+        }
+        setPagination(dataPagination);
       })
       .catch((error) => {
         alert(error);
@@ -96,21 +106,66 @@ const ProductList = () => {
           ))}
         </tbody>
       </table>
-      <nav class="pagination mb-6" role="navigation" aria-label="pagination">
-        <a class="pagination-previous">Previous</a>
-        <a class="pagination-next">Next page</a>
-        <ul class="pagination-list">
-          <li>
-            <a class="pagination-link">1</a>
-          </li>
-          <li>
-            <a class="pagination-link">2</a>
-          </li>
-          <li>
-            <a class="pagination-link">3</a>
-          </li>
-        </ul>
-      </nav>
+      {pagination.length > 1 ? (
+        <nav class="pagination mb-6" role="navigation" aria-label="pagination">
+          <a
+            class="pagination-previous"
+            onClick={() => {
+              getProduct(param.perPage, param.page - 1);
+              setParam((prevState) => ({
+                ...prevState,
+                page: param.page - 1,
+              }));
+            }}
+          >
+            Previous
+          </a>
+
+          <a
+            class="pagination-next"
+            onClick={() => {
+              getProduct(param.perPage, param.page + 1);
+              setParam((prevState) => ({
+                ...prevState,
+                page: param.page + 1,
+              }));
+            }}
+          >
+            Next page
+          </a>
+          <ul class="pagination-list">
+            {pagination.map((val, idx) => (
+              <li key={idx}>
+                <div
+                  style={
+                    param.page === idx + 1
+                      ? {
+                          backgroundColor: "#fa591d",
+                          boerderColor: "#fa591d",
+                        }
+                      : {}
+                  }
+                  className={
+                    param.page === idx + 1
+                      ? "pagination-link is-current"
+                      : "pagination-link"
+                  }
+                  onClick={() => {
+                    getProduct(param.page, param.perPage, idx + 1);
+                    setParam((prevState) => ({
+                      ...prevState,
+                      page: idx + 1,
+                    }));
+                  }}
+                >
+                  {idx + 1}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
+      {console.log("HHHHHHHHHH", param.page)}
     </div>
   );
 };
