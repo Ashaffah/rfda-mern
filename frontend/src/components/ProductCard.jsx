@@ -80,7 +80,7 @@ const ProductCard = () => {
           </div>
           <div className="card p-4">
             <div className="has-text-weight-bold mb-2">Kategori</div>
-            <href>
+            <div>
               {category.map((val, idx) => (
                 <div className="has-text-black-bis" key={idx}>
                   <span
@@ -101,9 +101,9 @@ const ProductCard = () => {
                   </span>
                 </div>
               ))}
-            </href>
+            </div>
             <div className="has-text-weight-bold my-2">Pengiriman</div>
-            <href>
+            <div>
               {delivery.map((val, idx) => (
                 <div className="has-text-black-bis" key={idx}>
                   <div
@@ -124,7 +124,7 @@ const ProductCard = () => {
                   </div>
                 </div>
               ))}
-            </href>
+            </div>
             <button
               className="button has-text-danger-dark mt-4"
               style={{ width: "100%" }}
@@ -160,11 +160,10 @@ const ProductCard = () => {
                       <div className="card" style={{ height: "100%" }}>
                         <div className="card-image">
                           <figure className="image is-4by4">
-                            <input
-                              type="image"
+                            <img
                               // src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/7/28/16445adf-dfb5-47d9-a43e-d896937d6fc6.jpg.webp?ect=4g"
                               src={"http://localhost:5000/" + val.image}
-                              alt="Placeholder image"
+                              alt={val.name}
                             />
                           </figure>
                         </div>
@@ -257,7 +256,7 @@ const ProductCard = () => {
                   role="navigation"
                   aria-label="pagination"
                 >
-                  <href
+                  <div
                     className="pagination-previous"
                     onClick={() => {
                       // console.log("okk");
@@ -273,9 +272,9 @@ const ProductCard = () => {
                     }}
                   >
                     Previous
-                  </href>
+                  </div>
 
-                  <href
+                  <div
                     className="pagination-next"
                     onClick={() => {
                       // console.log("okk");
@@ -291,19 +290,19 @@ const ProductCard = () => {
                     }}
                   >
                     Next
-                  </href>
+                  </div>
 
                   <ul className="pagination-list">
                     {/* {console.log("dataFilter", dataFilter)} */}
                     {pagination.map((val, idx) => (
                       <li key={idx}>
-                        <href
+                        <div
                           style={
                             dataFilter.page === idx + 1
                               ? {
-                                  backgroundColor: "#fa591d",
-                                  borderColor: "#fa591d",
-                                }
+                                backgroundColor: "#fa591d",
+                                borderColor: "#fa591d",
+                              }
                               : {}
                           }
                           className={
@@ -325,7 +324,7 @@ const ProductCard = () => {
                           }}
                         >
                           {idx + 1}
-                        </href>
+                        </div>
                       </li>
                     ))}
                   </ul>

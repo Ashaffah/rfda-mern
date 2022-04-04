@@ -4,14 +4,19 @@ import { Link } from "react-router-dom";
 
 const ProductList = () => {
   const [product, setProduct] = useState([]);
+  const [param, setParam] = useState({
+    perPage: 10,
+    page: 1,
+  });
 
   useEffect(() => {
     getProduct();
   }, []);
 
-  const getProduct = async () => {
+  const getProduct = async (page = 1, perPage = 10) => {
+
     axios
-      .get("http://localhost:5000/products?page=1&perPage=10")
+      .get(`http://localhost:5000/products?page=${page}&perPage=${perPage}`)
       .then((res) => {
         setProduct(res.data.data);
       })
@@ -28,9 +33,28 @@ const ProductList = () => {
   return (
     <div>
       <div className="is-size-3 has-text-weight-bold">Manage Product</div>
-      <Link to="/manage/product/add" className="button is-primary mt-2">
-        Add New
-      </Link>
+      <div>
+        <Link to="/manage/product/add" className="button is-primary mt-2">
+          Add New
+        </Link>
+      </div>
+      <div style={{ textAlign: "right" }}>
+        <div class="select">
+          <select
+            onChange={(e) => {
+              setParam((prevState) => ({
+                ...prevState,
+                perPage: e.target.value,
+              }));
+              getProduct(1, e.target.value);
+            }}
+          >
+            <option value={"10"}>10</option>
+            <option value={"25"}>25</option>
+            <option value={"50"}>50</option>
+          </select>
+        </div>
+      </div>
       <table className="table is-striped is-fullwidth">
         <thead>
           <tr>
@@ -72,6 +96,21 @@ const ProductList = () => {
           ))}
         </tbody>
       </table>
+      <nav class="pagination mb-6" role="navigation" aria-label="pagination">
+        <a class="pagination-previous">Previous</a>
+        <a class="pagination-next">Next page</a>
+        <ul class="pagination-list">
+          <li>
+            <a class="pagination-link">1</a>
+          </li>
+          <li>
+            <a class="pagination-link">2</a>
+          </li>
+          <li>
+            <a class="pagination-link">3</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };

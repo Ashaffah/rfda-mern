@@ -37,7 +37,7 @@ const Homepage = () => {
                         <img
                           // src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/7/28/16445adf-dfb5-47d9-a43e-d896937d6fc6.jpg.webp?ect=4g"
                           src={"http://localhost:5000/" + val.image}
-                          alt="Placeholder image"
+                          alt={val.name}
                         />
                       </figure>
                     </div>
