@@ -15,12 +15,14 @@ const ProductList = () => {
   }, []);
 
   const getProduct = async (page = 1, perPage = 10) => {
-    const paramPage = page != 1 ? page : "";
+    const paramPage = page !== 1 ? page : "";
 
     // console.log("paramPage", paramPage)
 
     axios
-      .get(`http://localhost:5000/products?page=${paramPage}&perPage=${perPage}`)
+      .get(
+        `http://localhost:5000/products?page=${paramPage}&perPage=${perPage}`
+      )
       .then((res) => {
         setProduct(res.data.data);
 
@@ -111,7 +113,7 @@ const ProductList = () => {
       </table>
       {pagination.length > 1 ? (
         <nav class="pagination mb-6" role="navigation" aria-label="pagination">
-          {(param.page > 1) ?
+          {param.page > 1 ? (
             <a
               class="pagination-previous"
               onClick={() => {
@@ -124,15 +126,11 @@ const ProductList = () => {
             >
               Previous
             </a>
-            :
-            <a
-              class="pagination-previous"
-            >
-              Previous
-            </a>
-          }
+          ) : (
+            <a class="pagination-previous">Previous</a>
+          )}
 
-          {(param.page < pagination.length) ?
+          {param.page < pagination.length ? (
             <a
               class="pagination-next"
               onClick={() => {
@@ -145,13 +143,9 @@ const ProductList = () => {
             >
               Next page
             </a>
-            :
-            <a
-              class="pagination-next"
-            >
-              Next page
-            </a>
-          }
+          ) : (
+            <a class="pagination-next">Next page</a>
+          )}
 
           <ul class="pagination-list">
             {pagination.map((val, idx) => (
@@ -160,9 +154,9 @@ const ProductList = () => {
                   style={
                     param.page === idx + 1
                       ? {
-                        backgroundColor: "#fa591d",
-                        boerderColor: "#fa591d",
-                      }
+                          backgroundColor: "#3F6BC5",
+                          boerderColor: "#3F6BC5",
+                        }
                       : {}
                   }
                   className={
