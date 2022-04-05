@@ -11,7 +11,7 @@ const AddCategory = () => {
 
     const data = new FormData();
     data.append("name", name);
-    await axios.post("https://backend-express-rfda.herokuapp.com/category", data, {
+    await axios.post(`${process.env.REACT_APP_MY_BASE_URL}/category`, data, {
       headers: {
         "content-type": "multipart/form-data",
       },

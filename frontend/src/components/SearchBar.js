@@ -10,7 +10,9 @@ const SearchBar = () => {
     const paramKeySearch = keySearch != null ? `&search=${keySearch}` : null;
 
     axios
-      .get(`https://backend-express-rfda.herokuapp.com/products?page=1&perPage=20${paramKeySearch}`)
+      .get(
+        `${process.env.REACT_APP_MY_BASE_URL}/products?page=1&perPage=20${paramKeySearch}`
+      )
       .then((res) => {
         setProduct(res.data.data);
       })

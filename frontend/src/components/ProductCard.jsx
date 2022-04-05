@@ -30,7 +30,7 @@ const ProductCard = () => {
     // console.log("delivery", delivery);
     axios
       .get(
-        `https://backend-express-rfda.herokuapp.com/products?${paramPage}&perPage=12${paramCategory}${paramDelivery}`
+        `${process.env.REACT_APP_MY_BASE_URL}/products?${paramPage}&perPage=12${paramCategory}${paramDelivery}`
       )
       .then((res) => {
         setProduct(res.data.data);
@@ -51,7 +51,7 @@ const ProductCard = () => {
 
   const getCategory = async () => {
     axios
-      .get("https://backend-express-rfda.herokuapp.com/category")
+      .get(`${process.env.REACT_APP_MY_BASE_URL}/category`)
       .then((res) => {
         setCategory(res.data.data);
       })
@@ -62,7 +62,7 @@ const ProductCard = () => {
 
   const getDelivery = async (delivery) => {
     axios
-      .get("https://backend-express-rfda.herokuapp.com/delivery")
+      .get(`${process.env.REACT_APP_MY_BASE_URL}/delivery`)
       .then((res) => {
         setDelivery(res.data.data);
       })
@@ -162,7 +162,10 @@ const ProductCard = () => {
                           <figure className="image is-4by4">
                             <img
                               // src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/7/28/16445adf-dfb5-47d9-a43e-d896937d6fc6.jpg.webp?ect=4g"
-                              src={"https://backend-express-rfda.herokuapp.com/" + val.image}
+                              src={
+                                `${process.env.REACT_APP_MY_BASE_URL}/` +
+                                val.image
+                              }
                               alt={val.name}
                             />
                           </figure>
@@ -300,9 +303,9 @@ const ProductCard = () => {
                           style={
                             dataFilter.page === idx + 1
                               ? {
-                                backgroundColor: "#fa591d",
-                                borderColor: "#fa591d",
-                              }
+                                  backgroundColor: "#fa591d",
+                                  borderColor: "#fa591d",
+                                }
                               : {}
                           }
                           className={

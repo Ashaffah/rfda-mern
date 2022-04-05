@@ -21,7 +21,7 @@ const ProductList = () => {
 
     axios
       .get(
-        `https://backend-express-rfda.herokuapp.com/products?page=${paramPage}&perPage=${perPage}`
+        `${process.env.REACT_APP_MY_BASE_URL}/products?page=${paramPage}&perPage=${perPage}`
       )
       .then((res) => {
         setProduct(res.data.data);
@@ -40,7 +40,7 @@ const ProductList = () => {
   };
 
   const deleteProduct = async (id) => {
-    await axios.delete(`https://backend-express-rfda.herokuapp.com/products/${id}`);
+    await axios.delete(`${process.env.REACT_APP_MY_BASE_URL}/products/${id}`);
     getProduct();
   };
 
@@ -154,9 +154,9 @@ const ProductList = () => {
                   style={
                     param.page === idx + 1
                       ? {
-                        backgroundColor: "#3F6BC5",
-                        boerderColor: "#3F6BC5",
-                      }
+                          backgroundColor: "#3F6BC5",
+                          boerderColor: "#3F6BC5",
+                        }
                       : {}
                   }
                   className={

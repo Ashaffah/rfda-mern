@@ -18,7 +18,7 @@ const EditProduct = () => {
 
   const updateProduct = async (e) => {
     e.preventDefault();
-    await axios.patch(`https://backend-express-rfda.herokuapp.com/products/${id}`, {
+    await axios.patch(`${process.env.REACT_APP_MY_BASE_URL}/products/${id}`, {
       title: dataProduct.title,
       price: dataProduct.price,
       selling_price: dataProduct.selling_price,
@@ -29,7 +29,9 @@ const EditProduct = () => {
 
   useEffect(() => {
     const getProductById = async () => {
-      const response = await axios.get("https://backend-express-rfda.herokuapp.com/products/" + id);
+      const response = await axios.get(
+        `${process.env.REACT_APP_MY_BASE_URL}/products/` + id
+      );
       setProduct(response.data.data);
     };
     getProductById();

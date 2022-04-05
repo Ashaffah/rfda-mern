@@ -4,14 +4,21 @@ import { Link } from "react-router-dom";
 
 const CategoryList = () => {
   const [category, setCategory] = useState([]);
+  const [param, setParam] = useState({
+    perPage: 10,
+    page: 1,
+  });
+  const [pagination, setPagination] = useState([]);
 
   useEffect(() => {
     getProduct();
   }, []);
 
-  const getProduct = async () => {
+  const getProduct = async (page = 1, perPage = 10) => {
+    const paramPage = page !== 1 ? page : "";
+    console.log("OKE", process.env);
     axios
-      .get("https://backend-express-rfda.herokuapp.com/category")
+      .get(`${process.env.REACT_APP_MY_BASE_URL}/category`)
       .then((res) => {
         setCategory(res.data.data);
       })
@@ -21,7 +28,7 @@ const CategoryList = () => {
   };
 
   const deleteProduct = async (id) => {
-    await axios.delete(`https://backend-express-rfda.herokuapp.com/category/${id}`);
+    await axios.delete(`${process.env.REACT_APP_MY_BASE_URL}/category/${id}`);
     getProduct();
   };
 
@@ -62,6 +69,19 @@ const CategoryList = () => {
           ))}
         </tbody>
       </table>
+      <nav
+        className="pagination mb-6"
+        role="navigation"
+        aria-label="pagination"
+      >
+        <a className="pagination-previous">Previous</a>
+        <a className="pagination-next">Next Page</a>
+        <ul className="pagination-list">
+          <li className="pagination-link">1</li>
+          <li className="pagination-link is-current">2</li>
+          <li className="pagination-link">3</li>
+        </ul>
+      </nav>
     </div>
   );
 };

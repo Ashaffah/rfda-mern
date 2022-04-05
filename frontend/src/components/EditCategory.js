@@ -9,7 +9,7 @@ const EditCategory = () => {
 
   const updateData = async (e) => {
     e.preventDefault();
-    await axios.patch(`https://backend-express-rfda.herokuapp.com/category/${id}`, {
+    await axios.patch(`${process.env.REACT_APP_MY_BASE_URL}/category/${id}`, {
       name: dataCategory.name,
     });
     history("/manage/category"); // history.push("/"); no longer use push
@@ -17,7 +17,9 @@ const EditCategory = () => {
 
   useEffect(() => {
     const getCategoryById = async () => {
-      const response = await axios.get("https://backend-express-rfda.herokuapp.com/category/" + id);
+      const response = await axios.get(
+        `${process.env.REACT_APP_MY_BASE_URL}/category/` + id
+      );
       setCategory(response.data);
     };
     getCategoryById();

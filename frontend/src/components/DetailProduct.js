@@ -13,7 +13,7 @@ const DetailProduct = () => {
 
   const getProductByName = async () => {
     const response = await axios.get(
-      `https://backend-express-rfda.herokuapp.com/products/detail/${name}`
+      `${process.env.REACT_APP_MY_BASE_URL}/products/detail/${name}`
     );
     setData(response.data.data);
     console.log("response", response);
@@ -24,7 +24,7 @@ const DetailProduct = () => {
       <div className="columns mt-5">
         <div className="column is-3">
           <img
-            src={"https://backend-express-rfda.herokuapp.com/" + data.image}
+            src={`${process.env.REACT_APP_MY_BASE_URL}/` + data.image}
             alt={data.name}
             style={{ width: "-webkit-fill-available", borderRadius: "10px" }}
           />
@@ -37,7 +37,7 @@ const DetailProduct = () => {
           >
             {[1, 2, 3].map((val, idx) => (
               <img
-                src={"https://backend-express-rfda.herokuapp.com/" + data.image}
+                src={`${process.env.REACT_APP_MY_BASE_URL}/` + data.image}
                 alt={data.name + idx}
                 style={{ width: "25%", borderRadius: "10px" }}
               />
@@ -190,14 +190,14 @@ const DetailProduct = () => {
             <button
               className="button is-success has-text-white"
               style={{ width: "100%", color: "white" }}
-              onClick={() => { }}
+              onClick={() => {}}
             >
               + Keranjang
             </button>
             <button
               className="button has-text-danger-dark mt-4"
               style={{ width: "100%" }}
-              onClick={() => { }}
+              onClick={() => {}}
             >
               Beli Langsung
             </button>

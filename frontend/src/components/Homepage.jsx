@@ -11,7 +11,7 @@ const Homepage = () => {
 
   const getProduct = async () => {
     axios
-      .get("https://backend-express-rfda.herokuapp.com/products?page=1&perPage=18")
+      .get(`${process.env.REACT_APP_MY_BASE_URL}/products?page=1&perPage=18`)
       .then((res) => {
         setProduct(res.data.data);
       })
@@ -36,7 +36,9 @@ const Homepage = () => {
                       <figure className="image is-4by4">
                         <img
                           // src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/7/28/16445adf-dfb5-47d9-a43e-d896937d6fc6.jpg.webp?ect=4g"
-                          src={"https://backend-express-rfda.herokuapp.com/" + val.image}
+                          src={
+                            `${process.env.REACT_APP_MY_BASE_URL}/` + val.image
+                          }
                           alt={val.name}
                         />
                       </figure>
