@@ -11,7 +11,7 @@ const CategoryList = () => {
 
   const getProduct = async () => {
     axios
-      .get("http://localhost:5000/category")
+      .get("https://backend-express-rfda.herokuapp.com/category")
       .then((res) => {
         setCategory(res.data.data);
       })
@@ -21,7 +21,7 @@ const CategoryList = () => {
   };
 
   const deleteProduct = async (id) => {
-    await axios.delete(`http://localhost:5000/category/${id}`);
+    await axios.delete(`https://backend-express-rfda.herokuapp.com/category/${id}`);
     getProduct();
   };
 

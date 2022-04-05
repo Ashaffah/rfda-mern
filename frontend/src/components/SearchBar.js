@@ -6,11 +6,11 @@ const SearchBar = () => {
   const [product, setProduct] = useState([]);
 
   const getProductName = async (keySearch = null) => {
-    // http://localhost:5000/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
+    // https://backend-express-rfda.herokuapp.com/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
     const paramKeySearch = keySearch != null ? `&search=${keySearch}` : null;
 
     axios
-      .get(`http://localhost:5000/products?page=1&perPage=20${paramKeySearch}`)
+      .get(`https://backend-express-rfda.herokuapp.com/products?page=1&perPage=20${paramKeySearch}`)
       .then((res) => {
         setProduct(res.data.data);
       })

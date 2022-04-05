@@ -21,7 +21,7 @@ const ProductCard = () => {
   }, []);
 
   const getProduct = async (category = null, delivery = null, page = null) => {
-    // http://localhost:5000/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
+    // https://backend-express-rfda.herokuapp.com/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
 
     const paramCategory = category != null ? `&category=${category}` : "";
     const paramDelivery = delivery != null ? `&delivery=${delivery}` : "";
@@ -30,7 +30,7 @@ const ProductCard = () => {
     // console.log("delivery", delivery);
     axios
       .get(
-        `http://localhost:5000/products?${paramPage}&perPage=12${paramCategory}${paramDelivery}`
+        `https://backend-express-rfda.herokuapp.com/products?${paramPage}&perPage=12${paramCategory}${paramDelivery}`
       )
       .then((res) => {
         setProduct(res.data.data);
@@ -51,7 +51,7 @@ const ProductCard = () => {
 
   const getCategory = async () => {
     axios
-      .get("http://localhost:5000/category")
+      .get("https://backend-express-rfda.herokuapp.com/category")
       .then((res) => {
         setCategory(res.data.data);
       })
@@ -62,7 +62,7 @@ const ProductCard = () => {
 
   const getDelivery = async (delivery) => {
     axios
-      .get("http://localhost:5000/delivery")
+      .get("https://backend-express-rfda.herokuapp.com/delivery")
       .then((res) => {
         setDelivery(res.data.data);
       })
@@ -162,7 +162,7 @@ const ProductCard = () => {
                           <figure className="image is-4by4">
                             <img
                               // src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/7/28/16445adf-dfb5-47d9-a43e-d896937d6fc6.jpg.webp?ect=4g"
-                              src={"http://localhost:5000/" + val.image}
+                              src={"https://backend-express-rfda.herokuapp.com/" + val.image}
                               alt={val.name}
                             />
                           </figure>

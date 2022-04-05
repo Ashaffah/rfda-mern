@@ -37,7 +37,7 @@ const AddProduct = () => {
 
   const getCategoryList = async () => {
     axios
-      .get("http://localhost:5000/category")
+      .get("https://backend-express-rfda.herokuapp.com/category")
       .then((res) => {
         setDataCategory(res.data.data);
       })
@@ -48,7 +48,7 @@ const AddProduct = () => {
 
   const getDeliveryList = async () => {
     axios
-      .get("http://localhost:5000/delivery")
+      .get("https://backend-express-rfda.herokuapp.com/delivery")
       .then((res) => {
         setDataDelivery(res.data.data);
       })
@@ -99,7 +99,7 @@ const AddProduct = () => {
       data.append("delivery", dataProduct.delivery_id);
       data.append("image", dataProduct.image);
 
-      await axios.post("http://localhost:5000/products", data, {
+      await axios.post("https://backend-express-rfda.herokuapp.com/products", data, {
         headers: {
           "content-type": "multipart/form-data",
         },
