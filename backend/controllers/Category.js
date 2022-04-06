@@ -5,6 +5,8 @@ export const getAllCategory = async (req, res) => {
   const perPage = req.query.perPage || 5;
 
   let query = {};
+  query.offset = (parseInt(currentPage) - 1) * parseInt(perPage);
+  query.limit = parseInt(perPage);
 
   Category.findAndCountAll(query)
     .then((result) => {
