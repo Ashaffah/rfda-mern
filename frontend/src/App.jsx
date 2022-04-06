@@ -12,6 +12,9 @@ import DetailProduct from "./components/DetailProduct";
 import SearchBar from "./components/SearchBar";
 import { Link } from "react-router-dom";
 import React from "react";
+import AddCategory from "./components/AddCategory";
+import EditCategory from "./components/EditCategory";
+import CategoryList from "./components/CategoryList";
 
 function App() {
   return (
@@ -102,6 +105,18 @@ function App() {
           <Route
             path="/manage/product/edit/:id"
             element={<EditProduct />}
+          ></Route>
+        </Routes>
+        <Routes>
+          <Route path="/manage/category" element={<CategoryList />}></Route>
+        </Routes>
+        <Routes>
+          <Route path="/manage/category/add" element={<AddCategory />}></Route>
+        </Routes>
+        <Routes>
+          <Route
+            path="/manage/category/edit/:id"
+            element={<EditCategory />}
           ></Route>
         </Routes>
       </div>

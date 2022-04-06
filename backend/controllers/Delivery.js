@@ -5,6 +5,8 @@ export const getAllKurir = async (req, res) => {
   const perPage = req.query.perPage || 5;
 
   let query = {}
+  query.offset = (parseInt(currentPage) - 1) * parseInt(perPage);
+  query.limit = parseInt(perPage);
 
   Delivery.findAndCountAll(query)
     .then(result => {
@@ -33,4 +35,50 @@ export const getKurirById = async (req, res) => {
   } catch (error) {
     res.json({ message: error.message });
   }
+};
+
+export const createKurir = async (req, res) => {
+  const payload = {
+    name: req.body.name
+  };
+  Delivery.create(payload)
+    .then((result) => {
+      res.status(200).json({
+        message: "Delivery Created",
+      });
+    })
+    .catch((error) => {
+      res.json({ message: error.message });
+    });
+};
+
+export const updateKurir = async (req, res) => {
+  const payload = {
+    name: req.body.name
+  };
+  Delivery.update(payload, {
+    where: {
+      id: req.params.id,
+    }
+  })
+    .then((result) => {
+      res.status(200).json({
+        message: "Delivery Updated",
+      });
+    })
+    .catch((error) => {
+      res.json({ message: error.message });
+    });
+};
+
+export const deleteKurir = async (req, res) => {
+  Delivery.destroy({ where: { id: req.params.id } })
+    .then((result) => {
+      res.status(200).json({
+        message: "Delivery Deleted",
+      });
+    })
+    .catch((error) => {
+      res.json({ message: error.message });
+    });
 };

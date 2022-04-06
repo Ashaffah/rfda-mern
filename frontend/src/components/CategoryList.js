@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const ProductList = () => {
-  const [product, setProduct] = useState([]);
+const CategoryList = () => {
+  const [category, setCategory] = useState([]);
   const [param, setParam] = useState({
     perPage: 10,
     page: 1,
@@ -16,16 +16,13 @@ const ProductList = () => {
 
   const getProduct = async (page = 1, perPage = 10) => {
     const paramPage = page !== 1 ? page : "";
-
-    // console.log("paramPage", paramPage)
-
+    console.log("OKE", process.env);
     axios
       .get(
-        `${process.env.REACT_APP_MY_BASE_URL}/products?page=${paramPage}&perPage=${perPage}`
+        `${process.env.REACT_APP_MY_BASE_URL}/category?page=${paramPage}&perPage=${perPage}`
       )
       .then((res) => {
-        setProduct(res.data.data);
-
+        setCategory(res.data.data);
         const countData = Math.ceil(res.data.total_data / perPage);
         let dataPagination = [];
 
@@ -40,15 +37,16 @@ const ProductList = () => {
   };
 
   const deleteProduct = async (id) => {
-    await axios.delete(`${process.env.REACT_APP_MY_BASE_URL}/products/${id}`);
+    await axios.delete(`${process.env.REACT_APP_MY_BASE_URL}/category/${id}`);
     getProduct();
   };
 
   return (
     <div>
-      <div className="is-size-3 has-text-weight-bold">Manage Product</div>
+      <div className="is-size-3 has-text-weight-bold">Manage Category</div>
+      {console.log("PAGE", param.page)}
       <div>
-        <Link to="/manage/product/add" className="button is-primary mt-2">
+        <Link to="/manage/category/add" className="button is-primary mt-2">
           Add New
         </Link>
       </div>
@@ -73,34 +71,24 @@ const ProductList = () => {
         <thead>
           <tr>
             <th>No</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Selling Price</th>
+            <th>Name</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {product.map((product, index) => (
-            <tr key={product.id}>
+          {category.map((category, index) => (
+            <tr key={category.id}>
               <td>{index + 1}</td>
-              <td>{product.title}</td>
-              <td>{product.price}</td>
-              <td>{product.selling_price}</td>
+              <td>{category.name}</td>
               <td>
                 <Link
-                  to={`/product/detail/${product.code}`}
-                  className="button is-small is-warning"
-                >
-                  View
-                </Link>
-                <Link
-                  to={`/manage/product/edit/${product.id}`}
+                  to={`/manage/category/edit/${category.id}`}
                   className="button is-small is-info mx-2"
                 >
                   Edit
                 </Link>
                 <button
-                  onClick={() => deleteProduct(product.id)}
+                  onClick={() => deleteProduct(category.id)}
                   className="button is-small is-danger"
                 >
                   Delete
@@ -132,7 +120,6 @@ const ProductList = () => {
           ) : (
             <a className="pagination-previous">Previous</a>
           )}
-
           {param.page < pagination.length ? (
             <a
               className="pagination-next"
@@ -144,12 +131,11 @@ const ProductList = () => {
                 }));
               }}
             >
-              Next page
+              Next Page
             </a>
           ) : (
             <a className="pagination-next">Next page</a>
           )}
-
           <ul className="pagination-list">
             {pagination.map((val, idx) => (
               <li key={idx}>
@@ -186,4 +172,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default CategoryList;

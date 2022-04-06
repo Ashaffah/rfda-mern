@@ -3,35 +3,40 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom"; // Use useNavigate instead of useHistory sudah tidak digunakan di react v6
 
 const EditProduct = () => {
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
+  const [dataProduct, setProduct] = useState({
+    title: "",
+    code: "",
+    price: 0,
+    selling_price: 0,
+    image: "",
+    category_id: 0,
+    delivery_id: 0,
+  });
+  console.log("dataProduct", dataProduct);
   const history = useNavigate();
   const { id } = useParams();
 
   const updateProduct = async (e) => {
     e.preventDefault();
-
-    console.log(`http://localhost:5000/products/${id}`);
-    console.log({
-      title: title,
-      price: price,
+    await axios.patch(`${process.env.REACT_APP_MY_BASE_URL}/products/${id}`, {
+      title: dataProduct.title,
+      price: dataProduct.price,
+      selling_price: dataProduct.selling_price,
+      image: dataProduct.image,
     });
-    await axios.patch(`http://localhost:5000/products/${id}`, {
-      title: title,
-      price: price,
-    });
-    history("/"); // history.push("/"); no longer use push
+    history("/manage/product"); // history.push("/"); no longer use push
   };
 
   useEffect(() => {
+    const getProductById = async () => {
+      const response = await axios.get(
+        `${process.env.REACT_APP_MY_BASE_URL}/products/` + id
+      );
+      setProduct(response.data.data);
+    };
     getProductById();
-  }, []);
+  }, [id]);
 
-  const getProductById = async () => {
-    const response = await axios.get(`http://localhost:5000/products/${id}`);
-    setTitle(response.data.title);
-    setPrice(response.data.price);
-  };
   return (
     <div>
       <form onSubmit={updateProduct}>
@@ -41,9 +46,12 @@ const EditProduct = () => {
             className="input"
             type="text"
             placeholder="Title"
-            value={title}
+            value={dataProduct.title}
             onChange={(e) => {
-              setTitle(e.target.value);
+              setProduct((prevState) => ({
+                ...prevState,
+                title: e.target.value,
+              }));
             }}
           />
         </div>
@@ -54,8 +62,29 @@ const EditProduct = () => {
             className="input"
             type="text"
             placeholder="Price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            value={dataProduct.price}
+            onChange={(e) => {
+              setProduct((prevState) => ({
+                ...prevState,
+                price: e.target.value,
+              }));
+            }}
+          />
+        </div>
+
+        <div className="field">
+          <label className="label">Selling Price</label>
+          <input
+            className="input"
+            type="text"
+            placeholder="Title"
+            value={dataProduct.selling_price}
+            onChange={(e) => {
+              setProduct((prevState) => ({
+                ...prevState,
+                selling_price: e.target.value,
+              }));
+            }}
           />
         </div>
 

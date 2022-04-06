@@ -21,7 +21,7 @@ const ProductCard = () => {
   }, []);
 
   const getProduct = async (category = null, delivery = null, page = null) => {
-    // http://localhost:5000/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
+    // https://backend-express-rfda.herokuapp.com/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
 
     const paramCategory = category != null ? `&category=${category}` : "";
     const paramDelivery = delivery != null ? `&delivery=${delivery}` : "";
@@ -30,7 +30,7 @@ const ProductCard = () => {
     // console.log("delivery", delivery);
     axios
       .get(
-        `http://localhost:5000/products?${paramPage}&perPage=12${paramCategory}${paramDelivery}`
+        `${process.env.REACT_APP_MY_BASE_URL}/products?${paramPage}&perPage=12${paramCategory}${paramDelivery}`
       )
       .then((res) => {
         setProduct(res.data.data);
@@ -51,7 +51,7 @@ const ProductCard = () => {
 
   const getCategory = async () => {
     axios
-      .get("http://localhost:5000/category")
+      .get(`${process.env.REACT_APP_MY_BASE_URL}/category`)
       .then((res) => {
         setCategory(res.data.data);
       })
@@ -62,7 +62,7 @@ const ProductCard = () => {
 
   const getDelivery = async (delivery) => {
     axios
-      .get("http://localhost:5000/delivery")
+      .get(`${process.env.REACT_APP_MY_BASE_URL}/delivery`)
       .then((res) => {
         setDelivery(res.data.data);
       })
@@ -80,12 +80,12 @@ const ProductCard = () => {
           </div>
           <div className="card p-4">
             <div className="has-text-weight-bold mb-2">Kategori</div>
-            <a>
+            <div>
               {category.map((val, idx) => (
                 <div className="has-text-black-bis" key={idx}>
                   <span
                     className={
-                      dataFilter.category.name == val.name
+                      dataFilter.category.name === val.name
                         ? "has-text-weight-bold"
                         : null
                     }
@@ -101,14 +101,14 @@ const ProductCard = () => {
                   </span>
                 </div>
               ))}
-            </a>
+            </div>
             <div className="has-text-weight-bold my-2">Pengiriman</div>
-            <a>
+            <div>
               {delivery.map((val, idx) => (
                 <div className="has-text-black-bis" key={idx}>
                   <div
                     className={
-                      dataFilter.delivery.name == val.name
+                      dataFilter.delivery.name === val.name
                         ? "has-text-weight-bold"
                         : null
                     }
@@ -124,8 +124,7 @@ const ProductCard = () => {
                   </div>
                 </div>
               ))}
-            </a>
-            <div></div>
+            </div>
             <button
               className="button has-text-danger-dark mt-4"
               style={{ width: "100%" }}
@@ -163,8 +162,11 @@ const ProductCard = () => {
                           <figure className="image is-4by4">
                             <img
                               // src="https://images.tokopedia.net/img/cache/200-square/hDjmkQ/2021/7/28/16445adf-dfb5-47d9-a43e-d896937d6fc6.jpg.webp?ect=4g"
-                              src={"http://localhost:5000/" + val.image}
-                              alt="Placeholder image"
+                              src={
+                                `${process.env.REACT_APP_MY_BASE_URL}/` +
+                                val.image
+                              }
+                              alt={val.name}
                             />
                           </figure>
                         </div>
@@ -257,13 +259,47 @@ const ProductCard = () => {
                   role="navigation"
                   aria-label="pagination"
                 >
-                  <a className="pagination-previous">Previous</a>
-                  <a className="pagination-next">Next</a>
+                  <div
+                    className="pagination-previous"
+                    onClick={() => {
+                      // console.log("okk");
+                      getProduct(
+                        dataFilter.category.id,
+                        dataFilter.delivery.id,
+                        dataFilter.page - 1
+                      );
+                      setDataFilter((prevState) => ({
+                        ...prevState,
+                        page: dataFilter.page - 1,
+                      }));
+                    }}
+                  >
+                    Previous
+                  </div>
+
+                  <div
+                    className="pagination-next"
+                    onClick={() => {
+                      // console.log("okk");
+                      getProduct(
+                        dataFilter.category.id,
+                        dataFilter.delivery.id,
+                        dataFilter.page + 1
+                      );
+                      setDataFilter((prevState) => ({
+                        ...prevState,
+                        page: dataFilter.page + 1,
+                      }));
+                    }}
+                  >
+                    Next
+                  </div>
+
                   <ul className="pagination-list">
                     {/* {console.log("dataFilter", dataFilter)} */}
                     {pagination.map((val, idx) => (
                       <li key={idx}>
-                        <a
+                        <div
                           style={
                             dataFilter.page === idx + 1
                               ? {
@@ -291,7 +327,7 @@ const ProductCard = () => {
                           }}
                         >
                           {idx + 1}
-                        </a>
+                        </div>
                       </li>
                     ))}
                   </ul>

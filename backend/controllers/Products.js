@@ -1,6 +1,6 @@
 import Product from "../models/productModel.js";
 import Category from "../models/categoryModel.js";
-import Delivery from "../models/categoryModel.js";
+import Delivery from "../models/deliveryModel.js";
 import { Op } from "sequelize";
 
 export const getAllProducts = async (req, res) => {
@@ -15,12 +15,12 @@ export const getAllProducts = async (req, res) => {
     query.where = {};
   } else {
     query.where = [
-      category != undefined && { category_id: category },
+      category != undefined && { category_id: JSON.parse(category) },
       delivery != undefined && { delivery_id: delivery },
       search != undefined && { title: { [Op.like]: `%${search}%` } },
     ];
   }
-  query.include = [{ model: Category }];
+  query.include = [{ model: Category }, { model: Delivery }];
   query.attributes = { exclude: ["description"] };
   query.offset = (parseInt(currentPage) - 1) * parseInt(perPage);
   query.limit = parseInt(perPage);
@@ -41,40 +41,49 @@ export const getAllProducts = async (req, res) => {
 };
 
 export const getProductById = async (req, res) => {
-  try {
-    const product = await Product.findAll({
-      where: {
-        id: req.params.id,
-      },
+  let query = {};
+  query.where = { id: req.params.id }
+
+  Product.findAll(query)
+    .then((result) => {
+      res.status(200).json({
+        message: "Success get Detail Product",
+        data: result[0]
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-    res.json(product[0]);
-  } catch (error) {
-    res.json({ message: error.message });
-  }
 };
 
 export const getProductByName = async (req, res) => {
-  try {
-    const product = await Product.findAll({
-      where: {
-        code: req.params.name,
-      },
+  let query = {};
+  query.where = { code: req.params.name }
+  query.include = [{ model: Category }, { model: Delivery }];
+
+  Product.findAll(query)
+    .then((result) => {
+      res.status(200).json({
+        message: "Success get Detail Product",
+        data: result[0]
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-    res.json(product[0]);
-  } catch (error) {
-    res.json({ message: error.message });
-  }
 };
 
 export const createProduct = async (req, res) => {
   try {
     const payload = {
       title: req.body.title,
+      code: req.body.code,
       price: req.body.price,
+      selling_price: req.body.selling_price,
       description: req.body.description,
-      category: req.body.category,
-      delivery: req.body.delivery,
-      image: req.file.path,
+      category_id: req.body.category,
+      delivery_id: req.body.delivery,
+      image: req.file.path
     };
     await Product.create(payload);
     res.json({
@@ -87,7 +96,17 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
-    await Product.update(req.body, {
+    const payload = {
+      title: req.body.title,
+      code: req.body.code,
+      price: req.body.price,
+      selling_price: req.body.selling_price,
+      description: req.body.description,
+      category_id: req.body.category,
+      delivery_id: req.body.delivery,
+      image: req.file.path
+    };
+    await Product.update(payload, {
       where: {
         id: req.params.id,
       },
@@ -101,16 +120,13 @@ export const updateProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-  try {
-    await Product.destroy({
-      where: {
-        id: req.params.id,
-      },
+  Product.destroy({ where: { id: req.params.id } })
+    .then((result) => {
+      res.status(200).json({
+        message: "Product Deleted",
+      });
+    })
+    .catch((error) => {
+      res.json({ message: error.message });
     });
-    res.json({
-      message: "Product Deleted",
-    });
-  } catch (error) {
-    res.json({ message: error.message });
-  }
 };

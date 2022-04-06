@@ -13,9 +13,10 @@ const DetailProduct = () => {
 
   const getProductByName = async () => {
     const response = await axios.get(
-      `http://localhost:5000/products/detail/${name}`
+      `${process.env.REACT_APP_MY_BASE_URL}/products/detail/${name}`
     );
-    setData(response.data);
+    setData(response.data.data);
+    console.log("response", response);
   };
   return (
     <div>
@@ -23,19 +24,21 @@ const DetailProduct = () => {
       <div className="columns mt-5">
         <div className="column is-3">
           <img
-            src={"http://localhost:5000/" + data.image}
-            alt="Placeholder image"
+            src={`${process.env.REACT_APP_MY_BASE_URL}/` + data.image}
+            alt={data.name}
             style={{ width: "-webkit-fill-available", borderRadius: "10px" }}
           />
-          <div style={{
-            display: "inline-flex",
-            flexWrap: "wrap",
-            gap: "10px"
-          }}>
+          <div
+            style={{
+              display: "inline-flex",
+              flexWrap: "wrap",
+              gap: "10px",
+            }}
+          >
             {[1, 2, 3].map((val, idx) => (
               <img
-                src={"http://localhost:5000/" + data.image}
-                alt="Placeholder image"
+                src={`${process.env.REACT_APP_MY_BASE_URL}/` + data.image}
+                alt={data.name + idx}
                 style={{ width: "25%", borderRadius: "10px" }}
               />
             ))}
@@ -43,7 +46,9 @@ const DetailProduct = () => {
         </div>
         <div className="column is-half">
           <div className="has-text-weight-bold is-size-4">{data.title}</div>
-          <div className=" mb-3">Terjual <span className="has-text-primary">{data.sales}</span></div>
+          <div className=" mb-3">
+            Terjual <span className="has-text-primary">{data.sales}</span>
+          </div>
           {data.selling_price > 0 ? (
             <>
               <div
@@ -114,10 +119,18 @@ const DetailProduct = () => {
 
           <div className="tabs is-boxed">
             <ul>
-              <li className="is-active"><a>Description</a></li>
-              <li><a>Spesifikasi</a></li>
-              <li><a>Panduan</a></li>
-              <li><a>Info Penting</a></li>
+              <li className="is-active">
+                <a>Description</a>
+              </li>
+              <li>
+                <a>Spesifikasi</a>
+              </li>
+              <li>
+                <a>Panduan</a>
+              </li>
+              <li>
+                <a>Info Penting</a>
+              </li>
             </ul>
           </div>
           <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
@@ -135,7 +148,10 @@ const DetailProduct = () => {
 
           <div>
             <div className="has-text-weight-bold my-2">Pengiriman</div>
-            <div>Dikirim dari <span className="has-text-weight-bold">Jakarta Utara</span></div>
+            <div>
+              Dikirim dari{" "}
+              <span className="has-text-weight-bold">Jakarta Utara</span>
+            </div>
             <div>Ongkir Reguler 36 rb - 54 rb</div>
             <div className="has-text-primary">Estimasi tiba 27 - 30 Mar</div>
             <div>Kurir lainnya: COD</div>
@@ -147,10 +163,22 @@ const DetailProduct = () => {
           <div className="box">
             <div className="my-2">Pilih Varian</div>
             <div className="buttons">
-              <button className="button is-rounded" style={{ backgroundColor: "red" }}></button>
-              <button className="button is-rounded" style={{ backgroundColor: "green" }}></button>
-              <button className="button is-rounded" style={{ backgroundColor: "blue" }}></button>
-              <button className="button is-rounded" style={{ backgroundColor: "yellow" }}></button>
+              <button
+                className="button is-rounded"
+                style={{ backgroundColor: "red" }}
+              ></button>
+              <button
+                className="button is-rounded"
+                style={{ backgroundColor: "green" }}
+              ></button>
+              <button
+                className="button is-rounded"
+                style={{ backgroundColor: "blue" }}
+              ></button>
+              <button
+                className="button is-rounded"
+                style={{ backgroundColor: "yellow" }}
+              ></button>
             </div>
             <div className="my-2">Pilih Ukuran</div>
             <div className="buttons">
@@ -162,14 +190,14 @@ const DetailProduct = () => {
             <button
               className="button is-success has-text-white"
               style={{ width: "100%", color: "white" }}
-              onClick={() => { }}
+              onClick={() => {}}
             >
               + Keranjang
             </button>
             <button
               className="button has-text-danger-dark mt-4"
-              style={{ width: '100%' }}
-              onClick={() => { }}
+              style={{ width: "100%" }}
+              onClick={() => {}}
             >
               Beli Langsung
             </button>

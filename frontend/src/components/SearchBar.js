@@ -1,18 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import "../style/Styles.css";
 
 const SearchBar = () => {
   const [keySearch, setKeySearch] = useState("");
   const [product, setProduct] = useState([]);
 
   const getProductName = async (keySearch = null) => {
-    // http://localhost:5000/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
+    // https://backend-express-rfda.herokuapp.com/products?page=1&perPage=10&category=2&delivery=5&search=Kaos
     const paramKeySearch = keySearch != null ? `&search=${keySearch}` : null;
 
     axios
-      .get(`http://localhost:5000/products?page=1&perPage=20${paramKeySearch}`)
+      .get(
+        `${process.env.REACT_APP_MY_BASE_URL}/products?page=1&perPage=20${paramKeySearch}`
+      )
       .then((res) => {
         setProduct(res.data.data);
       })
@@ -34,7 +34,7 @@ const SearchBar = () => {
           }}
         />
       </p>
-      {keySearch != "" && (
+      {keySearch !== "" && (
         <div className="box" style={{ position: "absolute", width: "47%" }}>
           {product.map((val, idx) => (
             <a href={`/product/detail/${val.code}`} key={idx}>
