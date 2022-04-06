@@ -53,7 +53,7 @@ const ProductList = () => {
         </Link>
       </div>
       <div style={{ textAlign: "right" }}>
-        <div class="select">
+        <div className="select">
           <select
             onChange={(e) => {
               setParam((prevState) => ({
@@ -111,10 +111,14 @@ const ProductList = () => {
         </tbody>
       </table>
       {pagination.length > 1 ? (
-        <nav class="pagination mb-6" role="navigation" aria-label="pagination">
+        <nav
+          className="pagination mb-6"
+          role="navigation"
+          aria-label="pagination"
+        >
           {param.page > 1 ? (
             <a
-              class="pagination-previous"
+              className="pagination-previous"
               onClick={() => {
                 getProduct(param.page - 1, param.perPage);
                 setParam((prevState) => ({
@@ -126,12 +130,12 @@ const ProductList = () => {
               Previous
             </a>
           ) : (
-            <a class="pagination-previous">Previous</a>
+            <a className="pagination-previous">Previous</a>
           )}
 
           {param.page < pagination.length ? (
             <a
-              class="pagination-next"
+              className="pagination-next"
               onClick={() => {
                 getProduct(param.page + 1, param.perPage);
                 setParam((prevState) => ({
@@ -143,10 +147,10 @@ const ProductList = () => {
               Next page
             </a>
           ) : (
-            <a class="pagination-next">Next page</a>
+            <a className="pagination-next">Next page</a>
           )}
 
-          <ul class="pagination-list">
+          <ul className="pagination-list">
             {pagination.map((val, idx) => (
               <li key={idx}>
                 <div

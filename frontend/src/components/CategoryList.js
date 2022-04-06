@@ -118,7 +118,7 @@ const CategoryList = () => {
               Previous
             </a>
           ) : (
-            <a class="pagination-previous">Previous</a>
+            <a className="pagination-previous">Previous</a>
           )}
           {param.page < pagination.length ? (
             <a
@@ -134,7 +134,7 @@ const CategoryList = () => {
               Next Page
             </a>
           ) : (
-            <a class="pagination-next">Next page</a>
+            <a className="pagination-next">Next page</a>
           )}
           <ul className="pagination-list">
             {pagination.map((val, idx) => (
