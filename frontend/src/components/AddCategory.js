@@ -16,7 +16,7 @@ const AddCategory = () => {
         "content-type": "multipart/form-data",
       },
     });
-    history("/"); // history.push("/"); no longer use push
+    history("/manage/category"); // history.push("/"); no longer use push
   };
   return (
     <div>

@@ -4,22 +4,22 @@ export const getAllCategory = async (req, res) => {
   const currentPage = req.query.page || 1;
   const perPage = req.query.perPage || 5;
 
-  let query = {}
+  let query = {};
 
   Category.findAndCountAll(query)
-    .then(result => {
+    .then((result) => {
       res.status(200).json({
-        message: 'Success get Data Category',
+        message: "Success get Data Category",
         data: result.rows,
         total_data: result.count,
         per_page: parseInt(perPage),
         current_page: parseInt(currentPage),
-      })
+      });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       next(err);
-    })
+    });
 };
 
 export const getCategoryById = async (req, res) => {
@@ -37,7 +37,7 @@ export const getCategoryById = async (req, res) => {
 
 export const createCategory = async (req, res) => {
   const payload = {
-    name: req.body.name
+    name: req.body.name,
   };
   Category.create(payload)
     .then((result) => {
@@ -52,12 +52,12 @@ export const createCategory = async (req, res) => {
 
 export const updateCategory = async (req, res) => {
   const payload = {
-    name: req.body.name
+    name: req.body.name,
   };
   Category.update(payload, {
     where: {
       id: req.params.id,
-    }
+    },
   })
     .then((result) => {
       res.status(200).json({

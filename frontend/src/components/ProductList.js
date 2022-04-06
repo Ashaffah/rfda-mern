@@ -47,7 +47,6 @@ const ProductList = () => {
   return (
     <div>
       <div className="is-size-3 has-text-weight-bold">Manage Product</div>
-      {console.log("PAGE", param.page)}
       <div>
         <Link to="/manage/product/add" className="button is-primary mt-2">
           Add New
